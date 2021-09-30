@@ -2,6 +2,7 @@ body {
     background-size: 600px 300px;
     background-image: url("/images/myCanvas (17).png");
     background-repeat: repeat;
+    background-attachment: fixed;
 }
 
 * {
@@ -10,8 +11,8 @@ body {
 }
 
 .active .hover-link {
-    color: darkcyan;
-    font-size: 140%;
+    color: rgb(0, 255, 179);
+    font-size: 120%;
 }
 
 .hover-link {
@@ -22,7 +23,7 @@ body {
 }
 
 .hover-link:hover {
-    color: crimson;
+    color: greenyellow;
 }
 
 .hover-link:after {
@@ -69,4 +70,21 @@ body {
     border-radius: 1em;
     border: solid 1px rgb(0, 0, 0);
     box-shadow: rgba(0, 0, 0, 0.637) 0px 0px 1em;
+}
+
+.frost {
+    /* filter: blur(3px); */
+    backdrop-filter: blur(3px);
+}
+
+.glow-border {
+    box-shadow: 0 0 0.5em #aaa;
+}
+
+.tool-card {
+    backdrop-filter: blur(1px);
+    /* border: solid 1px black; */
+    background-color: rgba(0, 0, 0, 0.555);
+    /* border-radius: 0.3em; */
+    box-shadow: rgba(255, 255, 255, 0.472) 0px 0px 0.2em;
 }
