@@ -1,5 +1,12 @@
+@font-face {
+    font-family: myFirstFont;
+    src: url(/fonts/arcadeclassic/ARCADECLASSIC.TTF);
+    /* src: url(/fonts/amiga_forever/amiga4ever\ pro2.ttf); */
+    font-weight: 100;
+}
+
 body {
-    background-size: 600px 300px;
+    background-size: 300px 200px;
     background-image: url("/images/myCanvas (17).png");
     background-repeat: repeat;
     background-attachment: fixed;
@@ -7,7 +14,7 @@ body {
 
 * {
     margin: 0;
-    /* border: solid 1px red; */
+    font-family: myFirstFont, Arial, Helvetica, sans-serif;
 }
 
 .active .hover-link {
@@ -73,7 +80,6 @@ body {
 }
 
 .frost {
-    /* filter: blur(3px); */
     backdrop-filter: blur(3px);
 }
 
@@ -83,8 +89,32 @@ body {
 
 .tool-card {
     backdrop-filter: blur(1px);
-    /* border: solid 1px black; */
     background-color: rgba(0, 0, 0, 0.555);
-    /* border-radius: 0.3em; */
     box-shadow: rgba(255, 255, 255, 0.472) 0px 0px 0.2em;
+}
+
+.links-card {
+    border: solid 0.5px rgba(250, 250, 210, 0.705);
+    background-color: rgba(0, 0, 0, 0.237);
+}
+
+.linkX {
+    color: lightgoldenrodyellow;
+    transition: 500ms;
+    background-color: rgba(0, 0, 0, 0.237);
+    backdrop-filter: blur(5px);
+    border: solid 1px rgba(250, 250, 210, 0.383);
+}
+
+.linkX:hover {
+    background-color: rgba(250, 250, 210, 0.664);
+    color: rgb(9, 9, 44);
+}
+
+.border-even {
+    border-radius: 1px 1em;
+}
+
+.border-odd {
+    border-radius: 1em 1px;
 }
