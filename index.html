@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/styles/index.css">
@@ -15,7 +16,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border">
         <a class="navbar-brand" href="/">
-            <h2 class="logo-top pt-2">Arsalan &nbsp;Sheikh</h2>
+            <h2 class="logo-top pt-2">Arsalan Sheikh</h2>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -75,17 +76,35 @@
         </div>
     </nav>
 
-    <div class="pt-2 col-12 my-5"></div>
+    <div class="py-4 col-10 my-5"></div>
 
-    <div class="col col-3 col-sm-2 col-lg-1 mx-auto">
-        <img src="/images/arse.jpg" width="100%" class="rounded_t" alt="Cinque Terre">
+    <div class="col col-3 col-sm-2 col-lg-1 mx-auto my-5">
+        <img src="/images/arse.jpg" width="100%" class="rounded_t" alt="Arsalan sheikh image top website">
     </div>
 
-    <div class="col-10 col-md-6 col-lg-4 mx-auto info-card blur py-4 my-5 px-4 text-center">
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis delectus mollitia deleniti voluptate qui unde ab minus consectetur, obcaecati quia quod quasi nesciunt totam deserunt numquam. Atque veniam excepturi minima!</p>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam mollitia ea numquam, qui laboriosam dolore architecto? Earum, deserunt nemo! Dolore quam maxime velit enim eum sint eveniet reiciendis explicabo doloremque voluptatem. Dolorum repudiandae
-            et voluptatem a cumque incidunt, explicabo error dicta. Placeat ducimus iure quo, laboriosam culpa nesciunt. Exercitationem rem qui perferendis voluptatibus excepturi dolorum. Explicabo sint maxime reprehenderit dolore!</p>
+    <div class="col-10 col-md-6 col-lg-4 mx-auto frost py-4 my-5 px-4 text-center glow-border border-odd homepage">
+        <div class="col-12 text-center h1 head">
+            Arsalan Sheikh
+        </div>
+
+        <div class="col-12 text-center h4 head">
+            "Nerd", <span class="h2">H</span>e said, and here i am!
+        </div>
+
+        <div class="col-12 text-center h4 head">
+            <div id="typed" style="display: inline;"></div>
+        </div>
     </div>
+
+
+    <script>
+        var typed2 = new Typed('#typed', {
+            strings: ['Programming', 'Development', 'Engineering', 'Automation', 'Web Scraping'],
+            typeSpeed: 100,
+            backSpeed: 100,
+            loop: true
+        });
+    </script>
 
 </body>
 
