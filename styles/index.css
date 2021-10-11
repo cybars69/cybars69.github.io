@@ -5,6 +5,14 @@
     font-weight: 100;
 }
 
+* {
+    margin: 0;
+    font-family: myFirstFont, Arial, Helvetica, sans-serif;
+    letter-spacing: 0.05em;
+    word-spacing: 0.5em;
+    /* border: solid 1px red; */
+}
+
 body {
     background-size: 300px 200px;
     /* background-image: url("/images/bgImg.png"); */
@@ -12,14 +20,6 @@ body {
     background-image: url("/images/myCanvas (17).png");
     background-repeat: repeat;
     background-attachment: fixed;
-}
-
-* {
-    margin: 0;
-    font-family: myFirstFont, Arial, Helvetica, sans-serif;
-    letter-spacing: 0.05em;
-    word-spacing: 0.5em;
-    /* border: solid 1px red; */
 }
 
 .logo-top {
@@ -119,5 +119,18 @@ body {
 }
 
 .homepage .head {
+    color: #FAFAD2;
+}
+
+a {
+    text-decoration: none;
+    color: #FAFAD2;
+}
+
+a:hover {
+    color: #FAFAD2;
+}
+
+.text-light {
     color: #FAFAD2;
 }
