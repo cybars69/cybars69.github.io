@@ -1,7 +1,6 @@
 @font-face {
     font-family: myFirstFont;
     src: url(/fonts/arcadeclassic/ARCADECLASSIC.TTF);
-    /* src: url(/fonts/amiga_forever/amiga4ever\ pro2.ttf); */
     font-weight: 100;
 }
 
@@ -10,13 +9,12 @@
     font-family: myFirstFont, Arial, Helvetica, sans-serif;
     letter-spacing: 0.05em;
     word-spacing: 0.5em;
+    color: #FAFAD2;
     /* border: solid 1px red; */
 }
 
 body {
     background-size: 300px 200px;
-    /* background-image: url("/images/bgImg.png"); */
-    /* background-color: black; */
     background-image: url("/images/myCanvas (17).png");
     background-repeat: repeat;
     background-attachment: fixed;
@@ -133,4 +131,17 @@ a:hover {
 
 .text-light {
     color: #FAFAD2;
+}
+
+#short-text {
+    display: none;
+}
+
+@media (max-width: 500px) {
+    #short-text {
+        display: inline-block;
+    }
+    #long-text {
+        display: none;
+    }
 }

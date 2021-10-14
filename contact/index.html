@@ -15,7 +15,8 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border">
         <a class="navbar-brand" href="/">
-            <h2 class="logo-top pt-2">Arsalan Sheikh</h2>
+            <h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3>
+            <h3 class="logo-top pt-2" id="short-text">Arsalan</h3>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -75,14 +76,102 @@
         </div>
     </nav>
 
+    <div class="p-5 col-10 my-5"></div>
 
-    <!-- SKILLS -->
+    <div id="form-submitted" class="col-11 col-md-6 col-xl-4 mx-auto text-center text-light h4" style="display: none;">
+        Thanks for your interest!<br>We will reach out shortly!
+    </div>
 
-    <!-- HOME -->
-    <!-- PROJECTS -->
-    <!-- POSTS -->
-    <!-- LINKS -->
-    <!-- CONTACT -->
+    <div id="form" class="col-11 col-md-6 col-xl-4 mx-auto text-center">
+        <form onsubmit="submitForm(event)">
+            <div class="form-group row mx-auto">
+                <div class="col-11 col-lg-8 mx-auto">
+                    <div class="input-group">
+                        <input id="name" name="name" placeholder="Name" type="text" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mx-auto">
+                <div class="col-11 col-lg-8 mx-auto">
+                    <div class="input-group">
+                        <input id="ph_no" name="ph_no" placeholder="Phone Number (Optional)" type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mx-auto">
+                <div class="col-11 col-lg-8 mx-auto">
+                    <div class="input-group">
+                        <input id="email" name="email" placeholder="Email" type="email" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mx-auto">
+                <div class="col-11 col-lg-8 mx-auto">
+                    <div class="input-group">
+                        <textarea class="form-control mx-auto" id="desc" rows="3" placeholder="Description" required></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-11 col-lg-8 px-4 mx-auto">
+                    <button name="submit" type="submit" class="btn btn-success btn-block mx-auto">
+                        <div class="" id="submit-btn">
+                            Submit Request
+                        </div>
+                        <div class="" id="submit-loader" style="display: none;">
+                            <div class="text-center col-12 mx-auto">
+                                <div class="spinner-grow spinner-grow-sm text-light"></div>
+                                <div class="spinner-grow spinner-grow-sm text-light"></div>
+                                <div class="spinner-grow spinner-grow-sm text-light"></div>
+                                <div class="spinner-grow spinner-grow-sm text-light"></div>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function formSubmitted() {
+            document.getElementById("form-submitted").style.display = "block";
+            document.getElementById("form").style.display = "none";
+        }
+
+        function submitForm(e) {
+            document.getElementById("submit-btn").style.display = "none";
+            document.getElementById("submit-loader").style.display = "block ";
+            e.preventDefault();
+            const name = document.getElementById('name').value
+            const ph_no = document.getElementById('ph_no').value
+            const email = document.getElementById('email').value
+            const desc = document.getElementById('desc').value
+            console.log(name, ph_no, email, desc);
+            fetch("https://forms-free.herokuapp.com/newEntry", {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: "POST",
+                    body: JSON.stringify({
+                        "name": name,
+                        "ph_no": ph_no || 69420,
+                        "email": email,
+                        "desc": desc
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    if (data.success === 1)
+                        formSubmitted()
+                    else window.location.href = '/'
+                })
+                .catch(function(res) {
+                    console.log(res)
+                })
+        }
+    </script>
 
 </body>
 
