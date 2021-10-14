@@ -119,6 +119,10 @@ body {
     color: #FAFAD2;
 }
 
+.homepage {
+    background-color: rgba(0, 0, 0, 0.767);
+}
+
 a {
     text-decoration: none;
     color: #FAFAD2;
