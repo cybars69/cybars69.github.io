@@ -9,7 +9,6 @@
     font-family: myFirstFont, Arial, Helvetica, sans-serif;
     letter-spacing: 0.05em;
     word-spacing: 0.5em;
-    color: #FAFAD2;
     /* border: solid 1px red; */
 }
 
@@ -137,11 +136,30 @@ a:hover {
     display: none;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 400px) {
     #short-text {
         display: inline-block;
     }
     #long-text {
         display: none;
     }
+}
+
+.input-field:focus,
+.input-field:hover {
+    background: rgba(0, 0, 0, 0.541);
+    box-shadow: #fafad2c4 0 0 0.35rem;
+    color: #FAFAD2;
+}
+
+.btn {
+    background: rgba(71, 238, 42, 0.178);
+    box-shadow: #fafad2de 0 0 0.5rem;
+    color: #FAFAD2;
+}
+
+.btn:hover {
+    background: rgba(60, 253, 26, 0.5);
+    box-shadow: #fafad2c4 0 0 0.35rem;
+    color: #FAFAD2;
 }
