@@ -1,137 +1,385 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/fd0871e9e0.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/styles/index.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/fd0871e9e0.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/styles/index.css" />
     <title>Projects - cybars69</title>
-</head>
+  </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border">
-        <a class="navbar-brand" href="/">
-            <h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3>
-            <h3 class="logo-top pt-2" id="short-text">Arsalan</h3>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <img src="/images/hamburger.svg" alt="navbar hamburger arsalan sheikh" height="20px" style="color: #FAFAD2;">
-        </button>
+  <body>
+    <nav
+      class="
+        navbar navbar-expand-lg navbar-dark
+        fixed-top
+        px-3
+        py-4
+        mb-5
+        frost
+        glow-border
+      "
+    >
+      <a class="navbar-brand" href="/">
+        <h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3>
+        <h3 class="logo-top pt-2" id="short-text">Arsalan</h3>
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <img
+          src="/images/hamburger.svg"
+          alt="navbar hamburger arsalan sheikh"
+          height="20px"
+          style="color: #fafad2"
+        />
+      </button>
 
-        <div class="collapse navbar-collapse mx-5 pt-1" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">
-                        <div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center">
-                            <p class="hover-link">Home</p>
-                        </div>
-                    </a>
-                </li>
+      <div
+        class="collapse navbar-collapse mx-5 pt-1"
+        id="navbarSupportedContent"
+      >
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <div
+                class="
+                  col col-4
+                  mx-auto
+                  px-3
+                  my-1
+                  text-center
+                  d-flex
+                  justify-content-center
+                "
+              >
+                <p class="hover-link">Home</p>
+              </div>
+            </a>
+          </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/tools/">
-                        <div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center">
-                            <p class="hover-link">Tools</p>
-                        </div>
-                    </a>
-                </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/tools/">
+              <div
+                class="
+                  col col-4
+                  mx-auto
+                  px-3
+                  my-1
+                  text-center
+                  d-flex
+                  justify-content-center
+                "
+              >
+                <p class="hover-link">Tools</p>
+              </div>
+            </a>
+          </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/blog">
-                        <div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center">
-                            <p class="hover-link">Blog</p>
-                        </div>
-                    </a>
-                </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/blog">
+              <div
+                class="
+                  col col-4
+                  mx-auto
+                  px-3
+                  my-1
+                  text-center
+                  d-flex
+                  justify-content-center
+                "
+              >
+                <p class="hover-link">Blog</p>
+              </div>
+            </a>
+          </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="">
-                        <div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center">
-                            <p class="hover-link active-nav">Projects</p>
-                        </div>
-                    </a>
-                </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">
+              <div
+                class="
+                  col col-4
+                  mx-auto
+                  px-3
+                  my-1
+                  text-center
+                  d-flex
+                  justify-content-center
+                "
+              >
+                <p class="hover-link active-nav">Projects</p>
+              </div>
+            </a>
+          </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/links">
-                        <div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center">
-                            <p class="hover-link">Links</p>
-                        </div>
-                    </a>
-                </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/links">
+              <div
+                class="
+                  col col-4
+                  mx-auto
+                  px-3
+                  my-1
+                  text-center
+                  d-flex
+                  justify-content-center
+                "
+              >
+                <p class="hover-link">Links</p>
+              </div>
+            </a>
+          </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/contact">
-                        <div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center">
-                            <p class="hover-link ">Contact</p>
-                        </div>
-                    </a>
-                </li>
-
-            </ul>
-        </div>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact">
+              <div
+                class="
+                  col col-4
+                  mx-auto
+                  px-3
+                  my-1
+                  text-center
+                  d-flex
+                  justify-content-center
+                "
+              >
+                <p class="hover-link">Contact</p>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
     </nav>
-
 
     <div class="pt-4 col-10 my-5"></div>
     <div class="row col-10 p-3 my-2 mx-auto text-light text-center">
-        <div class="col-10 col-lg-5 px-2 pb-3 pt-5 mx-auto my-3 frost glow-border border-even">
-            <img src="/images/projects/gen-art.png" alt="" style="width:100%;" class="col-11 mx-auto my-2">
-            <div class="col-10 mx-auto my-3">Generative art pieces with P5JS</div>
-            <div class="row col-9 mx-auto">
-                <div class="col-3 mx-auto text-center my-2">
-                    <a href="https://github.com/cybars69/creative-art" target="blank" rel="noreferrer">
-                        <i class="fab fa-github fa-3x"></i></a>
-                </div>
-                <div class="col-3 mx-auto text-center my-2">
-                    <a href="https://cybars69.github.io/creative-art" target="blank" rel="noreferrer">
-                        <img src="/images/logos/live.svg" alt="Live site Generative art Arsalan Sheikh" height="90%"></a>
-                </div>
-            </div>
+      <div
+        class="
+          col-10 col-lg-5
+          px-2
+          pb-3
+          pt-5
+          mx-auto
+          my-3
+          frost
+          glow-border
+          border-even
+        "
+      >
+        <img
+          src="/images/projects/gen-art.png"
+          alt=""
+          style="width: 100%"
+          class="col-11 mx-auto my-2"
+        />
+        <div class="col-10 mx-auto my-3">Generative art pieces with P5JS</div>
+        <div class="row col-9 mx-auto">
+          <a
+            class="
+              col-3
+              mx-auto
+              d-flex
+              align-items-center
+              justify-content-center
+              my-2
+            "
+            href="https://github.com/cybars69/creative-art"
+            target="blank"
+            rel="noreferrer"
+          >
+            <i class="fab fa-github fa-3x"></i>
+          </a>
+          <a
+            class="
+              col-3
+              mx-auto
+              d-flex
+              align-items-center
+              justify-content-center
+              my-2
+            "
+            href="https://cybars69.github.io/creative-art"
+            target="blank"
+            rel="noreferrer"
+          >
+            <img
+              src="/images/logos/live.svg"
+              alt="Live site Generative art Arsalan Sheikh"
+              style="height: 3em"
+          /></a>
         </div>
-        <div class="col-10 col-lg-5 px-2 pt-5 pb-3 mx-auto my-3 frost glow-border border-even">
-            <img src="/images/projects/img-split.png" alt="" style="width:100%;" class="col-11 mx-auto my-2">
-            <div class="col-10 mx-auto my-3">Splits image into separate RGB channels</div>
-            <div class="row col-9 mx-auto">
-                <div class="col-3 mx-auto text-center my-2">
-                    <a href="https://github.com/cybars69/img-channel-splitter" target="blank" rel="noreferrer">
-                        <i class="fab fa-github fa-3x"></i></a>
-                </div>
-            </div>
+      </div>
+      <div
+        class="
+          col-10 col-lg-5
+          px-2
+          pt-5
+          pb-3
+          mx-auto
+          my-3
+          frost
+          glow-border
+          border-even
+        "
+      >
+        <img
+          src="/images/projects/img-split.png"
+          alt=""
+          style="width: 100%"
+          class="col-11 mx-auto my-2"
+        />
+        <div class="col-10 mx-auto my-3">
+          Splits image into separate RGB channels
         </div>
-        <div class="col-10 col-lg-5 px-2 pt-5 pb-3 mx-auto my-3 frost glow-border  border-even">
-            <img src="/images/projects/telanon.png" alt="" style="width:100%;" class="col-11 mx-auto my-2">
-            <div class="col-10 mx-auto my-3">Send Anonymous messages to people</div>
-            <div class="row col-9 mx-auto">
-                <div class="col-3 mx-auto text-center my-2">
-                    <a href="https://telanon.ga" target="blank" rel="noreferrer">
-                        <img src="/images/logos/live.svg" alt="Live site TELANON" height="90%">
-                    </a>
-                </div>
-            </div>
+        <div class="row col-9 mx-auto">
+          <a
+            class="
+              col-3
+              mx-auto
+              d-flex
+              align-items-center
+              justify-content-center
+              my-2
+            "
+            href="https://github.com/cybars69/img-channel-splitter"
+            target="blank"
+            rel="noreferrer"
+          >
+            <i class="fab fa-github fa-3x"></i>
+          </a>
         </div>
-        <div class="col-10 col-lg-5 px-2 pt-5 pb-3 mx-auto my-3 frost glow-border  border-even">
-            <img src="/images/projects/web-cloner.png" alt="" style="width:100%;" class="col-11 mx-auto my-2">
-            <div class="col-10 mx-auto my-3">Clone the entire structure of <a href="http://index-of.es" target="blank" rel="noreferrer">index-of.es</a></div>
-            <div class="row col-9 mx-auto">
-                <div class="col-3 mx-auto text-center my-2">
-                    <a href="https://github.com/cybars69/web-cloner" target="blank" rel="noreferrer">
-                        <i class="fab fa-github fa-3x"></i></a>
-                </div>
-                <div class="col-3 mx-auto text-center my-2">
-                    <a href="http://index-of.es" target="blank" rel="noreferrer">
-                        <img src="/images/logos/live.svg" alt="Live site index-of.es" height="90%"></a>
-                </div>
-            </div>
+      </div>
+
+      <div
+        class="
+          col-10 col-lg-5
+          px-2
+          pb-3
+          pt-5
+          mx-auto
+          my-3
+          frost
+          glow-border
+          border-even
+        "
+      >
+        <img
+          src="/images/projects/telanon.png"
+          alt=""
+          style="width: 100%"
+          class="col-11 mx-auto my-2"
+        />
+        <div class="col-10 mx-auto my-3">Send Anonymous messages to people</div>
+        <div class="row col-9 mx-auto">
+          <a
+            class="
+              col-3
+              mx-auto
+              d-flex
+              align-items-center
+              justify-content-center
+              my-2
+            "
+            href="https://telanon.ga"
+            target="blank"
+            rel="noreferrer"
+          >
+            <img
+              src="/images/logos/live.svg"
+              alt="Live site TELANON"
+              style="height: 3em"
+          /></a>
         </div>
+      </div>
+
+      <div
+        class="
+          col-10 col-lg-5
+          px-2
+          pt-5
+          pb-3
+          mx-auto
+          my-3
+          frost
+          glow-border
+          border-even
+        "
+      >
+        <img
+          src="/images/projects/web-cloner.png"
+          alt=""
+          style="width: 100%"
+          class="col-11 mx-auto my-2"
+        />
+        <div class="col-10 mx-auto my-3">
+          Clone the entire structure of
+          <a href="http://index-of.es" target="blank" rel="noreferrer"
+            >index-of.es</a
+          >
+        </div>
+        <div class="row col-9 mx-auto">
+          <a
+            class="
+              col-3
+              mx-auto
+              d-flex
+              align-items-center
+              justify-content-center
+              my-2
+            "
+            href="https://github.com/cybars69/web-cloner"
+            target="blank"
+            rel="noreferrer"
+          >
+            <i class="fab fa-github fa-3x"></i
+          ></a>
+
+          <a
+            class="
+              col-3
+              mx-auto
+              d-flex
+              align-items-center
+              justify-content-center
+              my-2
+            "
+            href="http://index-of.es"
+            target="blank"
+            rel="noreferrer"
+          >
+            <img
+              src="/images/logos/live.svg"
+              alt="Live site index-of.es"
+              style="height: 3em"
+          /></a>
+        </div>
+      </div>
     </div>
-
-
-</body>
-
+  </body>
 </html>
