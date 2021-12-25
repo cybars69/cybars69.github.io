@@ -9,7 +9,7 @@
     font-family: myFirstFont, Arial, Helvetica, sans-serif;
     letter-spacing: 0.05em;
     word-spacing: 0.5em;
-    border: solid 1px red;
+    /* border: solid 1px red; */
 }
 
 body {
