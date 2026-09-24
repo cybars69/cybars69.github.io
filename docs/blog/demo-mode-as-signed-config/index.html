@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Demo mode as signed config, not a fork - cybars69</title><meta name="description" content="Ephemeral public demo stores that can't send email, take payments or be crawled, driven by one flag in the same signed document as everything else."><link rel="canonical" href="https://cybars69.github.io/blog/demo-mode-as-signed-config/"><link rel="icon" href="/favicon.ico"><!-- Agent discovery. Static-only site: no response headers or content negotiation, so the same relations
+         are advertised here, and every route has a build-time Markdown twin at <route>.md. --><link rel="alternate" type="text/markdown" href="/blog/demo-mode-as-signed-config.md" title="Markdown version of this page"><link rel="api-catalog" href="/.well-known/api-catalog"><link rel="describedby" type="text/markdown" href="/llms.txt" title="llms.txt"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:site_name" content="cybars69"><meta property="og:title" content="Demo mode as signed config, not a fork - cybars69"><meta property="og:description" content="Ephemeral public demo stores that can't send email, take payments or be crawled, driven by one flag in the same signed document as everything else."><meta property="og:url" content="https://cybars69.github.io/blog/demo-mode-as-signed-config/"><meta property="og:image" content="https://cybars69.github.io/images/arse.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cybars69.github.io/images/arse.jpg"><script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/fd0871e9e0.js" crossorigin="anonymous"></script><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script><link rel="stylesheet" href="/_astro/Layout.UTCX8eE_.css"></head><body><nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border"><a class="navbar-brand" href="/"><h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3><h3 class="logo-top pt-2" id="short-text">Arsalan</h3></a><button class="navbar-toggler text-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><img src="/images/hamburger.svg" alt="navbar hamburger arsalan sheikh" height="20px" style="color: #FAFAD2;"></button><div class="collapse navbar-collapse mx-5 pt-1" id="navbarSupportedContent"><ul class="navbar-nav ml-auto"><li class="nav-item"><a class="nav-link" href="/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Home</p></div></a></li><li class="nav-item"><a class="nav-link" href="/tools/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Tools</p></div></a></li><li class="nav-item"><a class="nav-link" href="/blog/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link active-nav">Blog</p></div></a></li><li class="nav-item"><a class="nav-link" href="/projects/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Projects</p></div></a></li><li class="nav-item"><a class="nav-link" href="/links/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Links</p></div></a></li><li class="nav-item"><a class="nav-link" href="/contact/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Contact</p></div></a></li></ul></div></nav><div class="page-top"></div><article class="col-11 col-md-8 col-lg-6 mx-auto frost glow-border border-odd section-card py-4 px-4 mb-5 prose"><div class="tl-when">2026-09-24</div><h1 class="h3 section-title">Demo mode as signed config, not a fork</h1><p>A commerce platform without a free tier still needs a way for a prospect to try it. The lazy route is a separate demo deployment or a long-lived branch, both of which rot. I built demo mode as <strong>runtime configuration in the signed tenant document</strong>, the same one that carries entitlements. Flipping <code>demoMode</code> changes behaviour within the normal propagation window (about two minutes), with no platform deploy.</p>
+<h2 id="safe-by-default">Safe by default</h2>
+<p>The flag has to fail in exactly one direction. If the document is missing, unverifiable or malformed, <code>demoMode</code> is <code>false</code>. A configuration failure must never be able to turn a paying store into a demo, and the reverse is acceptable: a demo that briefly behaves like a real store is far less damaging than a real store that stops taking payments.</p>
+<p>The payload carries three related fields:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{ </span><span style="color:#79B8FF">"demoMode"</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">"demoExpiresAt"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"2026-08-04T00:00:00Z"</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">"demoSignupUrl"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"https://example.com/start"</span><span style="color:#E1E4E8"> }</span></span></code></pre>
+<p>The expiry drives a live countdown in the banner. The signup URL must be HTTPS or it is ignored. Both are also ignored unless <code>demoMode</code> is true.</p>
+<h2 id="suppress-at-the-egress-layer">Suppress at the egress layer</h2>
+<p>The interesting question is what a demo must <strong>not</strong> be able to do. The answer is a list of side effects that leave the system or abuse it:</p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Behaviour in demo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Email, every path</td>
+<td>A transport wrapper intercepts each send, logs <code>demo_email_simulated</code> and returns success. Nothing reaches the mail provider</td>
+</tr>
+<tr>
+<td>Payments</td>
+<td>Checkout completes in simulated mode. No real card entry. Payment webhooks return 403</td>
+</tr>
+<tr>
+<td>Agent access (MCP and OAuth routes)</td>
+<td>Return 403, and admin shows the endpoint with a “connection not allowed” explanation</td>
+</tr>
+<tr>
+<td>Media upload</td>
+<td>Rejected. Seed imagery stays</td>
+</tr>
+<tr>
+<td>Catalogue</td>
+<td>Products, variants, types, attributes, categories and collections are view-only. Mutating verbs return 403</td>
+</tr>
+<tr>
+<td>Custom script injection</td>
+<td>Creation and enabling blocked, even though demo entitlements otherwise match a paid tier</td>
+</tr>
+<tr>
+<td>Admin-triggered builds</td>
+<td>Capped at 2 per demo, on top of the hourly rate limit</td>
+</tr>
+<tr>
+<td>Server-side ad forwarding</td>
+<td>Suppressed</td>
+</tr>
+</tbody>
+</table>
+<p>The email row is the pattern worth copying. Rather than adding <code>if (demo)</code> checks at every call site, the <em>transport</em> is wrapped, so every current and future code path that sends mail is covered by construction and reports success to its caller. The suppression sits at the boundary where side effects leave the system.</p>
+<h2 id="what-demo-mode-does-not-do">What demo mode does not do</h2>
+<p>It does <strong>not</strong> make the admin read-only. Checkout, order management and storefront serving stay available, because the invariants that protect real stores hold here too, and a prospect should be able to place a test order and fulfil it. Only catalogue data is frozen, because catalogue edits are what make a public demo drift into an ugly state. Everything else stays editable until reset.</p>
+<p>Demo tenants are given <strong>paid-tier-equivalent entitlements</strong> so gated features are visible, since a demo that hides the product’s best parts is not a demo.</p>
+<h2 id="hygiene-for-something-public">Hygiene for something public</h2>
+<ul>
+<li>An opaque generated slug for the hostname. Vanity slugs are never used for demos.</li>
+<li><code>noindex, nofollow</code> on every page, an equivalent <code>X-Robots-Tag</code> header, and a <code>robots.txt</code> that disallows everyone.</li>
+<li>A persistent banner in both storefront and admin with the countdown and a signup link.</li>
+<li>A staff-authenticated, rate-limited reset endpoint that proxies to the control plane, which re-clones the seed snapshot and clears demo-specific runtime state.</li>
+</ul>
+<h2 id="the-seed-snapshot-has-a-contract-test">The seed snapshot has a contract test</h2>
+<p>The demo data lives in the repository as a manifest plus a snapshot with stable <code>demo_*</code> IDs:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>demo/</span></span>
+<span class="line"><span>  manifest.json    snapshotVersion, schemaVersion, minimum entity counts</span></span>
+<span class="line"><span>  snapshot.json    canonical commerce and content rows</span></span></code></pre>
+<p>The control plane wipes the tenant’s commerce and content tables and re-inserts the snapshot on provisioning and on reset. A CI test validates the manifest’s minimum counts against the snapshot, and the manifest records the schema version it was built for. So when a migration changes the schema and nobody updates the demo data, <strong>the build breaks</strong> instead of a prospect finding an empty store. Seed data is code and it needs a compiler.</p>
+<h2 id="takeaways">Takeaways</h2>
+<ul>
+<li>A demo is a <strong>configuration of the real product</strong>, not a copy of it.</li>
+<li>Fail toward the real, paying behaviour.</li>
+<li>Suppress side effects by wrapping the boundary, not by sprinkling conditionals.</li>
+<li>Version and test your seed data against the schema.</li>
+</ul>
+<div class="mt-4"><a href="/blog/" class="stack-more">← All posts</a></div></article></body></html>

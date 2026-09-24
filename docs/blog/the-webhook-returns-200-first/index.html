@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>The webhook returns 200 first: a WhatsApp agent&#39;s message pipeline, tool loop and human handoff - cybars69</title><meta name="description" content="What happens between a customer's message and the reply: filtering, acknowledging early, classifying, routing, a tool loop, a silent fallback and a four-call escalation."><link rel="canonical" href="https://cybars69.github.io/blog/the-webhook-returns-200-first/"><link rel="icon" href="/favicon.ico"><!-- Agent discovery. Static-only site: no response headers or content negotiation, so the same relations
+         are advertised here, and every route has a build-time Markdown twin at <route>.md. --><link rel="alternate" type="text/markdown" href="/blog/the-webhook-returns-200-first.md" title="Markdown version of this page"><link rel="api-catalog" href="/.well-known/api-catalog"><link rel="describedby" type="text/markdown" href="/llms.txt" title="llms.txt"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:site_name" content="cybars69"><meta property="og:title" content="The webhook returns 200 first: a WhatsApp agent's message pipeline, tool loop and human handoff - cybars69"><meta property="og:description" content="What happens between a customer's message and the reply: filtering, acknowledging early, classifying, routing, a tool loop, a silent fallback and a four-call escalation."><meta property="og:url" content="https://cybars69.github.io/blog/the-webhook-returns-200-first/"><meta property="og:image" content="https://cybars69.github.io/images/arse.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cybars69.github.io/images/arse.jpg"><script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/fd0871e9e0.js" crossorigin="anonymous"></script><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script><link rel="stylesheet" href="/_astro/Layout.UTCX8eE_.css"></head><body><nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border"><a class="navbar-brand" href="/"><h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3><h3 class="logo-top pt-2" id="short-text">Arsalan</h3></a><button class="navbar-toggler text-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><img src="/images/hamburger.svg" alt="navbar hamburger arsalan sheikh" height="20px" style="color: #FAFAD2;"></button><div class="collapse navbar-collapse mx-5 pt-1" id="navbarSupportedContent"><ul class="navbar-nav ml-auto"><li class="nav-item"><a class="nav-link" href="/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Home</p></div></a></li><li class="nav-item"><a class="nav-link" href="/tools/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Tools</p></div></a></li><li class="nav-item"><a class="nav-link" href="/blog/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link active-nav">Blog</p></div></a></li><li class="nav-item"><a class="nav-link" href="/projects/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Projects</p></div></a></li><li class="nav-item"><a class="nav-link" href="/links/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Links</p></div></a></li><li class="nav-item"><a class="nav-link" href="/contact/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Contact</p></div></a></li></ul></div></nav><div class="page-top"></div><article class="col-11 col-md-8 col-lg-6 mx-auto frost glow-border border-odd section-card py-4 px-4 mb-5 prose"><div class="tl-when">2026-09-24</div><h1 class="h3 section-title">The webhook returns 200 first: a WhatsApp agent&#39;s message pipeline, tool loop and human handoff</h1><p>This is a walkthrough of the request path in a WhatsApp booking agent, following one message from arrival to reply and then one escalation. The architecture is in <a href="/blog/dropping-the-agent-framework/">dropping the agent framework</a>. This post is about the details that decide whether it works in production.</p>
+<h2 id="1-filter-before-you-do-anything">1. Filter before you do anything</h2>
+<p>Chatwoot calls the agent-bot webhook for <strong>every</strong> message event. The very first thing the handler does is throw most of them away:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># only: event == "message_created", message_type == "incoming", sender.type == "contact"</span></span></code></pre>
+<p>That filter is not tidying up. The agent’s own replies also produce <code>message_created</code> events, so without it the bot answers itself and loops. Human agents’ messages are filtered out for the same reason: a human replying must not trigger the AI.</p>
+<h2 id="2-acknowledge-immediately-work-later">2. Acknowledge immediately, work later</h2>
+<p>The handler extracts the Chatwoot account ID, conversation ID, text and sender phone, resolves the tenant with one lookup on the account ID, and then <strong>returns HTTP 200 right away</strong> and dispatches the real work as a background task.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>webhook   -&gt; filter -&gt; resolve tenant -&gt; 200 OK  (milliseconds)</span></span>
+<span class="line"><span>                                          \-&gt; background task: classify -&gt; handle -&gt; reply</span></span></code></pre>
+<p>An LLM call plus tool calls can take seconds. If the webhook waits for them, it ties up the caller and invites timeouts and duplicate deliveries. Acknowledging first decouples the sender’s patience from the model’s latency.</p>
+<p>The conversation ID is <strong>namespaced</strong> (<code>chatwoot-7</code>) before it touches the database, so conversation IDs from different sources can never collide.</p>
+<h2 id="3-state-is-a-small-blob">3. State is a small blob</h2>
+<p>Per-conversation state is a JSON document: whether the customer has been greeted, the recent messages, and what has been learned so far (for example a child’s name). The classifier only ever sees the last five messages plus this state, which is cheaper and more predictable than replaying a whole transcript.</p>
+<h2 id="4-classify-then-route-in-plain-python">4. Classify, then route in plain Python</h2>
+<p>A small fast model returns an intent with a confidence:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{ </span><span style="color:#79B8FF">"intent"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"greeting"</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">"confidence"</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0.95</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">"reasoning"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"..."</span><span style="color:#E1E4E8"> }</span></span></code></pre>
+<p>Routing is a normal function, not a prompt:</p>
+<table>
+<thead>
+<tr>
+<th>Intent and state</th>
+<th>Handler</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>greeting, not yet greeted</td>
+<td>greeting</td>
+</tr>
+<tr>
+<td>query</td>
+<td>query</td>
+</tr>
+<tr>
+<td>booking</td>
+<td>booking</td>
+</tr>
+<tr>
+<td>faq</td>
+<td>faq</td>
+</tr>
+<tr>
+<td>escalation</td>
+<td>escalation</td>
+</tr>
+<tr>
+<td>unknown, mid-booking</td>
+<td>booking</td>
+</tr>
+<tr>
+<td>unknown, already greeted</td>
+<td>faq</td>
+</tr>
+</tbody>
+</table>
+<p>The last two rows matter most. A message like “March 20” classifies as <em>unknown</em> by itself, but in the middle of a booking it is obviously an answer. Deterministic fallbacks keyed on conversation state rescue the cases where a classifier has no context.</p>
+<h2 id="5-the-tool-loop">5. The tool loop</h2>
+<p>The handler builds a system prompt from the business’s name, hours and tone, plus formatting rules for the channel (WhatsApp wants <code>*bold*</code> and <code>_italic_</code>, and no Markdown headers or brackets). Then it runs the classic loop:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">while</span><span style="color:#79B8FF"> True</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    resp </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> call_model(</span><span style="color:#FFAB70">system</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">system, </span><span style="color:#FFAB70">messages</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">messages, </span><span style="color:#FFAB70">tools</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">tools, </span><span style="color:#FFAB70">max_tokens</span><span style="color:#F97583">=</span><span style="color:#79B8FF">1024</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> resp.stop_reason </span><span style="color:#F97583">==</span><span style="color:#9ECBFF"> "tool_use"</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">        result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> execute_tool(resp.tool_name, resp.tool_input, merchant_id)  </span><span style="color:#6A737D"># a DB query</span></span>
+<span class="line"><span style="color:#E1E4E8">        messages.append(tool_result(result))</span></span>
+<span class="line"><span style="color:#F97583">        continue</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> resp.text          </span><span style="color:#6A737D"># stop_reason == "end_turn"</span></span></code></pre>
+<p>Tools are ordinary functions scoped by tenant: business info, filtered product search, slot availability, create booking. A booking is a multi-turn dance (product, date, time, then confirm), and the state blob is what carries it between turns.</p>
+<h2 id="6-the-fallback-that-hides-no-availability">6. The fallback that hides “no availability”</h2>
+<p>One rule made it into the docs as a “key rule”. If <code>create_booking</code> fails because the slot is full, the handler <strong>silently falls back to creating an ad-hoc booking</strong>, a lead capture. The customer sees “we’ll confirm your booking shortly” and never “no availability”. The business gets the lead and decides.</p>
+<p>That is a product decision expressed in code, and a debatable one: it trades honesty about capacity for not losing the customer. Whichever way you land, it should be written down where the business can see it.</p>
+<h2 id="7-handing-over-to-a-human">7. Handing over to a human</h2>
+<p>When the intent is escalation, the model first responds with empathy, then calls a <code>handoff_to_human</code> tool with a summary. The webhook layer injects the function that talks to Chatwoot, which performs <strong>four sequential calls</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>POST /conversations/{id}/messages     { content: "[AI Summary] ...", private: true }   &lt;- staff-only note</span></span>
+<span class="line"><span>POST /conversations/{id}/labels       { labels: ["escalated"] }</span></span>
+<span class="line"><span>POST /conversations/{id}/toggle_status{ status: "open" }                                &lt;- removes the bot</span></span>
+<span class="line"><span>POST /conversations/{id}/assignments  { team_id: &lt;the business's team&gt; }</span></span></code></pre>
+<p>The private note is the quiet win: staff open the conversation and already have the AI’s summary, without the customer being asked to repeat themselves. Setting the status to open is what takes the bot out of the loop.</p>
+<h2 id="8-which-inbox-gets-an-ai">8. Which inbox gets an AI</h2>
+<p>The agent bot is assigned <strong>only to the WhatsApp inbox</strong>. A second inbox for the website’s chat widget has no bot at all, so it is human-only by construction, and the business’s staff see both inboxes in one account. Deciding where the AI does <em>not</em> speak is as much an architectural decision as where it does.</p>
+<h2 id="takeaways">Takeaways</h2>
+<ul>
+<li>Filter events aggressively, or the bot talks to itself.</li>
+<li>Return 200, then process.</li>
+<li>Use deterministic routing plus state-aware fallbacks around a classifier.</li>
+<li>Hand off with a private summary, an explicit label and a status change.</li>
+</ul>
+<div class="mt-4"><a href="/blog/" class="stack-more">← All posts</a></div></article></body></html>

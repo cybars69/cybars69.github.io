@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const sections = [
+  {
+    id: 'recent',
+    title: 'Recent work',
+    intro: 'Open source, plus studio and client work. Client and studio projects are anonymized: no names, no domains, just the engineering.',
+    items: all.filter((p) => p.data.era === 'recent'),
+  },
+  {
+    id: 'side',
+    title: 'Side projects',
+    intro: 'Smaller things built for curiosity or for college.',
+    items: all.filter((p) => p.data.era === 'side'),
+  },
+  {
+    id: 'pre-ai',
+    title: 'Pre-AI-slop',
+    intro: 'Written by hand, before AI coding tools were part of my workflow. Everything from the first version of this site.',
+    items: all.filter((p) => p.data.era === 'pre-ai'),
+  },
+];
+---
+
+<Layout title="Projects - cybars69" description="Things Arsalan Sheikh (cybars69) has built: agent skills, commerce and booking platforms, scrapers, generative art and more." active="projects">
+  <div class="page-top"></div>
+
+  {sections.map((s) => (
+    <section id={s.id} class="mb-5">
+      <h2 class="section-title text-center text-light">{s.title}</h2>
+      <p class="text-center text-light col-10 col-md-6 mx-auto section-intro">{s.intro}</p>
+      <div class="row col-10 p-3 my-2 mx-auto text-light text-center">
+        {s.items.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </section>
+  ))}
+
+  <div class="text-center text-light mb-5">
+    More on <a href="https://github.com/cybars69?tab=repositories" target="blank" rel="noreferrer" class="stack-more">GitHub →</a>
+  </div>
+</Layout>

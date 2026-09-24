@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { linkGroups } from '../data/site';
+---
+
+<Layout title="Links - cybars69" description="Every place to find Arsalan Sheikh (cybars69) online: LinkedIn, GitHub, Twitter, Instagram, résumés and more." active="links">
+  <div class="py-4 col-12 my-5"></div>
+
+  <div class="col-10 col-md-6 col-lg-4 py-5 px-2 mx-auto frost links-card border-odd">
+    {linkGroups.map((group) => (
+      <>
+        <h2 class="links-heading text-center">{group.title}</h2>
+        {group.items.map((l, i) => (
+          <a
+            href={l.href}
+            target="blank"
+            rel="noreferrer"
+            style="text-decoration:none;"
+            class:list={['col-11 mx-auto h4 p-3 text-center row frost linkX', i % 2 === 0 ? 'border-odd' : 'border-even']}
+          >
+            <div class="col-2 text-center"><i class={l.icon}></i></div>
+            <div class="col-10 mx-auto">{l.label}</div>
+          </a>
+        ))}
+      </>
+    ))}
+  </div>
+  <div class="py-3"></div>
+</Layout>

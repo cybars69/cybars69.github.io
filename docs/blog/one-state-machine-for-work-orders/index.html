@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>One state machine for work orders: deleting the workflow - cybars69</title><meta name="description" content="A print shop's order system with a single three-state task machine, an atomic pickup, a delivery gate and a signed customer ledger."><link rel="canonical" href="https://cybars69.github.io/blog/one-state-machine-for-work-orders/"><link rel="icon" href="/favicon.ico"><!-- Agent discovery. Static-only site: no response headers or content negotiation, so the same relations
+         are advertised here, and every route has a build-time Markdown twin at <route>.md. --><link rel="alternate" type="text/markdown" href="/blog/one-state-machine-for-work-orders.md" title="Markdown version of this page"><link rel="api-catalog" href="/.well-known/api-catalog"><link rel="describedby" type="text/markdown" href="/llms.txt" title="llms.txt"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:site_name" content="cybars69"><meta property="og:title" content="One state machine for work orders: deleting the workflow - cybars69"><meta property="og:description" content="A print shop's order system with a single three-state task machine, an atomic pickup, a delivery gate and a signed customer ledger."><meta property="og:url" content="https://cybars69.github.io/blog/one-state-machine-for-work-orders/"><meta property="og:image" content="https://cybars69.github.io/images/arse.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cybars69.github.io/images/arse.jpg"><script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/fd0871e9e0.js" crossorigin="anonymous"></script><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script><link rel="stylesheet" href="/_astro/Layout.UTCX8eE_.css"></head><body><nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border"><a class="navbar-brand" href="/"><h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3><h3 class="logo-top pt-2" id="short-text">Arsalan</h3></a><button class="navbar-toggler text-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><img src="/images/hamburger.svg" alt="navbar hamburger arsalan sheikh" height="20px" style="color: #FAFAD2;"></button><div class="collapse navbar-collapse mx-5 pt-1" id="navbarSupportedContent"><ul class="navbar-nav ml-auto"><li class="nav-item"><a class="nav-link" href="/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Home</p></div></a></li><li class="nav-item"><a class="nav-link" href="/tools/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Tools</p></div></a></li><li class="nav-item"><a class="nav-link" href="/blog/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link active-nav">Blog</p></div></a></li><li class="nav-item"><a class="nav-link" href="/projects/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Projects</p></div></a></li><li class="nav-item"><a class="nav-link" href="/links/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Links</p></div></a></li><li class="nav-item"><a class="nav-link" href="/contact/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Contact</p></div></a></li></ul></div></nav><div class="page-top"></div><article class="col-11 col-md-8 col-lg-6 mx-auto frost glow-border border-odd section-card py-4 px-4 mb-5 prose"><div class="tl-when">2026-09-24</div><h1 class="h3 section-title">One state machine for work orders: deleting the workflow</h1><p>The first version of a work-order system for a print shop modelled the full production workflow: stages, assignments, quality control, finishing, dispatch, installation. The rewrite removed almost all of it. What replaced it is small enough to describe completely.</p>
+<h2 id="the-whole-model">The whole model</h2>
+<p>A <strong>work order</strong> is one job: order number, customer, a details block, the departments Sales selected, and flags for installation, transport and repair. Its overall status is <code>active</code>, <code>completed</code> or <code>cancelled</code>.</p>
+<p>Each selected department produces a <strong>department task</strong>, and <code>department_tasks</code> is the <em>only</em> operational state machine:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Pending  --Start (by a worker)--&gt;  Started  --Finish (same worker)--&gt;  Completed</span></span></code></pre>
+<p>A pending task has no owner. There are no assignee fields, suggestions, transfers, load-balancing, auto-assignment or manager approvals, and that absence is the feature: workers pick up work themselves.</p>
+<h2 id="the-one-write-that-matters">The one write that matters</h2>
+<p><code>picked_up_by</code> is written only by the atomic <strong>Start</strong> action. Two workers tapping Start at the same moment is the one real concurrency problem in the system, and the correct answer is a conditional update:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#F97583">UPDATE</span><span style="color:#E1E4E8"> department_tasks</span></span>
+<span class="line"><span style="color:#F97583">   SET</span><span style="color:#F97583"> status</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> 'started'</span><span style="color:#E1E4E8">, picked_up_by </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> $</span><span style="color:#79B8FF">1</span></span>
+<span class="line"><span style="color:#F97583"> WHERE</span><span style="color:#E1E4E8"> id </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> $</span><span style="color:#79B8FF">2</span><span style="color:#F97583"> AND</span><span style="color:#F97583"> status</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> 'pending'</span></span>
+<span class="line"><span style="color:#E1E4E8">RETURNING </span><span style="color:#F97583">*</span><span style="color:#E1E4E8">;</span></span></code></pre>
+<p>That is a sketch of the idea, not a copy of the code. If it returns no row, someone else got there first and the second worker’s UI refreshes. No locks, no queue, no optimistic-version column: the <code>WHERE status = 'pending'</code> clause <em>is</em> the lock.</p>
+<p>Admins can release a started task back to pending, complete one as an override, or reopen a completed one. Every transition is audited.</p>
+<h2 id="the-delivery-gate">The delivery gate</h2>
+<p>Delivery is just another task with one special rule. It exists from the start, but it has no <code>available_at</code> until every production task Sales selected is complete. <strong>Design does not gate delivery.</strong> The work order is done when every task, including delivery, is done.</p>
+<p>Modelling a gate as “this task’s availability timestamp is null until X” keeps it in data, so it shows up in the same queue queries as everything else, rather than needing a special code path.</p>
+<h2 id="people-without-a-role-zoo">People without a role zoo</h2>
+<p>Access follows the same minimalism:</p>
+<ul>
+<li><code>admin</code> is a separate security privilege.</li>
+<li>Every other database role is normalised to <code>worker</code>.</li>
+<li>Sales access, accounts access and queue access all come from <strong>department membership</strong>, a many-to-many <code>user_departments</code> table.</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>users 1 --- many user_departments many --- 1 departments</span></span></code></pre>
+<p>One person can be in Sales, Accounts and two production queues at the same time. An old text column for department remains only so a migration can read legacy data.</p>
+<p>There is a bug worth recording here because it is so easy to write. A boot-time migration used the legacy roles table to decide who to demote to <code>worker</code>. Admin had a legacy <code>kind</code> of <code>manager</code>, so <strong>admins were demoted on every boot</strong>. The fix was to exclude admin explicitly. The lesson is that migrations that run on every boot must be idempotent <em>and</em> must be tested against the roles you already have.</p>
+<h2 id="a-ledger-of-signed-entries">A ledger of signed entries</h2>
+<p>Money is a <code>customer_ledger_entries</code> table of signed amounts:</p>
+<table>
+<thead>
+<tr>
+<th>Entry</th>
+<th>Sign</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>opening balance</td>
+<td>signed debit or credit</td>
+</tr>
+<tr>
+<td>invoice</td>
+<td>positive (debit), synchronised with the work order’s invoice</td>
+</tr>
+<tr>
+<td>payment</td>
+<td>negative (credit)</td>
+</tr>
+<tr>
+<td>adjustment</td>
+<td>signed</td>
+</tr>
+</tbody>
+</table>
+<p>A customer’s balance is simply <strong>the sum of their entries across all their work orders</strong>. Quote changes never post to the ledger, because a quote is a promise, not a debt. There is no stored balance to drift out of sync.</p>
+<h2 id="legacy-data-handled-honestly">Legacy data, handled honestly</h2>
+<p>Old orders, line items and workflow records became migration sources only. Active records that were <em>ambiguous</em> were excluded rather than guessed at: a generic “production” step can’t safely identify which print department owns it. Completed and cancelled records stayed as immutable history. Refusing to migrate what you can’t interpret is more responsible than migrating it wrongly.</p>
+<h2 id="takeaways">Takeaways</h2>
+<ul>
+<li>The best simplification is deleting a state machine.</li>
+<li>Concurrency control can be a <code>WHERE</code> clause.</li>
+<li>Represent gates as data (<code>available_at</code>), not code.</li>
+<li>Ledgers are sums, not balances.</li>
+</ul>
+<div class="mt-4"><a href="/blog/" class="stack-more">← All posts</a></div></article></body></html>

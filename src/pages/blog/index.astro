@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf() || a.data.title.localeCompare(b.data.title));
+---
+
+<Layout title="Blog - cybars69" description="Notes from Arsalan Sheikh (cybars69)." active="blog">
+  <div class="page-top"></div>
+
+  <div class="col-11 col-md-8 col-lg-6 mx-auto">
+    {posts.map((post) => (
+      <a href={`/blog/${post.id}/`} class="d-block frost glow-border border-even section-card py-4 px-4 my-4 post-link">
+        <div class="tl-when">{post.data.date.toISOString().slice(0, 10)}</div>
+        <h2 class="h4 section-title mb-2">{post.data.title}</h2>
+        <div>{post.data.description}</div>
+        <div class="mt-2">{(post.data.tags ?? []).map((t) => <span class="tag-chip">{t}</span>)}</div>
+      </a>
+    ))}
+  </div>
+</Layout>

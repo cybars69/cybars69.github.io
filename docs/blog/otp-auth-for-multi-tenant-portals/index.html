@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>OTP login, refresh-token families and three layers of access for multi-tenant portals - cybars69</title><meta name="description" content="One identity system for patients, clinic staff, distributors and admins: challenge-based OTP in Redis, rotating refresh tokens, and access that is checked in three separate layers."><link rel="canonical" href="https://cybars69.github.io/blog/otp-auth-for-multi-tenant-portals/"><link rel="icon" href="/favicon.ico"><!-- Agent discovery. Static-only site: no response headers or content negotiation, so the same relations
+         are advertised here, and every route has a build-time Markdown twin at <route>.md. --><link rel="alternate" type="text/markdown" href="/blog/otp-auth-for-multi-tenant-portals.md" title="Markdown version of this page"><link rel="api-catalog" href="/.well-known/api-catalog"><link rel="describedby" type="text/markdown" href="/llms.txt" title="llms.txt"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:site_name" content="cybars69"><meta property="og:title" content="OTP login, refresh-token families and three layers of access for multi-tenant portals - cybars69"><meta property="og:description" content="One identity system for patients, clinic staff, distributors and admins: challenge-based OTP in Redis, rotating refresh tokens, and access that is checked in three separate layers."><meta property="og:url" content="https://cybars69.github.io/blog/otp-auth-for-multi-tenant-portals/"><meta property="og:image" content="https://cybars69.github.io/images/arse.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cybars69.github.io/images/arse.jpg"><script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/fd0871e9e0.js" crossorigin="anonymous"></script><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script><link rel="stylesheet" href="/_astro/Layout.UTCX8eE_.css"></head><body><nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border"><a class="navbar-brand" href="/"><h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3><h3 class="logo-top pt-2" id="short-text">Arsalan</h3></a><button class="navbar-toggler text-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><img src="/images/hamburger.svg" alt="navbar hamburger arsalan sheikh" height="20px" style="color: #FAFAD2;"></button><div class="collapse navbar-collapse mx-5 pt-1" id="navbarSupportedContent"><ul class="navbar-nav ml-auto"><li class="nav-item"><a class="nav-link" href="/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Home</p></div></a></li><li class="nav-item"><a class="nav-link" href="/tools/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Tools</p></div></a></li><li class="nav-item"><a class="nav-link" href="/blog/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link active-nav">Blog</p></div></a></li><li class="nav-item"><a class="nav-link" href="/projects/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Projects</p></div></a></li><li class="nav-item"><a class="nav-link" href="/links/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Links</p></div></a></li><li class="nav-item"><a class="nav-link" href="/contact/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Contact</p></div></a></li></ul></div></nav><div class="page-top"></div><article class="col-11 col-md-8 col-lg-6 mx-auto frost glow-border border-odd section-card py-4 px-4 mb-5 prose"><div class="tl-when">2026-09-24</div><h1 class="h3 section-title">OTP login, refresh-token families and three layers of access for multi-tenant portals</h1><p>A supply-chain platform for healthcare has several kinds of people: patients, clinic staff, distributor staff, and internal admins. Some belong to more than one clinic, some to more than one distributor, and a few hold several roles at once. One login system had to serve all of them, on web portals and a mobile app.</p>
+<h2 id="identity-is-the-hard-part">Identity is the hard part</h2>
+<p>Before any token exists, the rules about <em>who a person is</em> have to be strict:</p>
+<ul>
+<li>Phone numbers are unique. Emails are unique, and normalised before storage.</li>
+<li>Admin provisioning <strong>reuses</strong> an existing user instead of creating a duplicate.</li>
+<li>Create and update flows reject <strong>split-identity conflicts</strong>: a phone number that points at one user and an email that points at another.</li>
+</ul>
+<p>Everything downstream, including tenant membership and audit trails, assumes that a human is one row. Google sign-in follows the same rules and, importantly, is a sign-in path for an already-known user, never a signup. It matches on normalised phone or email, and if nothing matches, login is rejected.</p>
+<h2 id="otp-as-a-challenge-not-a-code">OTP as a challenge, not a code</h2>
+<p>The main login is a one-time password by SMS. The design point is that the server issues a <strong>challenge</strong>, not just a code:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>POST /auth/otp/request   { phone }                       -&gt; { challenge_id }</span></span>
+<span class="line"><span>POST /auth/otp/verify    { challenge_id, otp }           -&gt; { access_token, refresh_token }</span></span>
+<span class="line"><span>POST /auth/refresh       { refresh_token }               -&gt; rotated pair</span></span>
+<span class="line"><span>POST /auth/logout</span></span></code></pre>
+<p>The phone number is normalised to E.164 first. The challenge ID is opaque, and the challenge is:</p>
+<ul>
+<li><strong>purpose-bound</strong>: usable only for the action it was created for, on the account it was created for;</li>
+<li><strong>single-use</strong>: a successful resend invalidates the previous challenge;</li>
+<li>backed by Redis with its rate limits and lockouts.</li>
+</ul>
+<p>The limits are worth listing, because they are the actual security control:</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code lifetime</td>
+<td>5 minutes</td>
+</tr>
+<tr>
+<td>Resend cooldown</td>
+<td>60 seconds</td>
+</tr>
+<tr>
+<td>Sends per destination</td>
+<td>7 per rolling hour, plus extra hourly network and account limits</td>
+</tr>
+<tr>
+<td>Wrong attempts</td>
+<td>5, then the challenge is invalidated and the purpose and destination scope is locked for 15 minutes</td>
+</tr>
+</tbody>
+</table>
+<p>These are enforced <strong>atomically in Redis</strong>. Client-side countdowns are informational only. Atomicity matters because a naive read-then-increment lets a parallel burst of guesses slip past the counter.</p>
+<p>Two guardrails I liked: staging and production <strong>refuse to start</strong> if development OTP logging is enabled, and the console SMS provider, which writes the full message body to logs, is rejected by default unless an administrator explicitly opts in with two separate flags. Safe misconfiguration should require effort.</p>
+<h2 id="tokens">Tokens</h2>
+<p>The <strong>access token</strong> is a JWT that carries the claims authorisation needs:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>sub, role, rbac_roles, typ=access, exp, iat,</span></span>
+<span class="line"><span>clinic_id?, distributor_id?, distributor_role?   &lt;- the active tenant context</span></span></code></pre>
+<p>The <strong>refresh token</strong> is a random opaque value. The raw token goes to the client and only its <strong>SHA-256 hash</strong> is stored, so a database leak doesn’t leak usable sessions. Refresh <strong>rotates</strong> the token, and a revoked refresh token invalidates its whole family, which is what stops a stolen token from being quietly reused after the legitimate client has already rotated.</p>
+<h2 id="three-layers-of-access">Three layers of access</h2>
+<p>Authorisation is deliberately not one field. It is three questions asked in order:</p>
+<ol>
+<li><strong>Portal access.</strong> <code>role</code> is an additive list of broad surfaces a person may enter, such as <code>['patient']</code> or <code>['admin', 'clinic', 'distributor']</code>.</li>
+<li><strong>Fine-grained roles.</strong> <code>rbac_roles</code> carries values like <code>clinic:receptionist</code>, <code>clinic:pharmacist</code> and <code>distributor:user</code>. Some roles are valid domain data without unlocking a portal in the current phase, and admin is global rather than tenant-scoped.</li>
+<li><strong>Tenant membership and active context.</strong> Portal access is not enough for a clinic action. The backend also resolves which clinics and distributors the person belongs to, and which one is <em>active for this request</em>.</li>
+</ol>
+<p>That third layer is what makes “one user, many clinics” safe. Each route is checked with FastAPI dependencies:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">get_current_user                    </span><span style="color:#6A737D"># who is this?</span></span>
+<span class="line"><span style="color:#E1E4E8">require_role(</span><span style="color:#79B8FF">...</span><span style="color:#E1E4E8">)                   </span><span style="color:#6A737D"># may they enter this portal?</span></span>
+<span class="line"><span style="color:#E1E4E8">require_rbac_role(</span><span style="color:#79B8FF">...</span><span style="color:#E1E4E8">)              </span><span style="color:#6A737D"># do they hold this fine-grained role?</span></span>
+<span class="line"><span style="color:#E1E4E8">verify_clinic_assignment(</span><span style="color:#79B8FF">...</span><span style="color:#E1E4E8">)       </span><span style="color:#6A737D"># are they a member of THIS clinic, right now?</span></span></code></pre>
+<p>The older single <code>preset_role</code> field survives only as a backward-compatible projection. It is not the source of authorisation truth, and treating it as one is exactly the kind of bug the layered design prevents.</p>
+<h2 id="takeaways">Takeaways</h2>
+<ul>
+<li>Fix identity rules before writing login code.</li>
+<li>Model OTP as a <strong>purpose-bound, single-use challenge</strong> with server-enforced limits.</li>
+<li>Store <strong>hashes</strong> of refresh tokens, rotate them, and revoke by family.</li>
+<li>Keep “which surface”, “which role” and “which tenant” as three separate checks.</li>
+</ul>
+<div class="mt-4"><a href="/blog/" class="stack-more">← All posts</a></div></article></body></html>

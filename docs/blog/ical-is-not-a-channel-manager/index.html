@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>iCal is not a channel manager: what ARI restrictions are and why a booking engine needs them - cybars69</title><meta name="description" content="An audit of a stays marketplace against what a real online travel agency needs, and the availability, rates and inventory model behind it."><link rel="canonical" href="https://cybars69.github.io/blog/ical-is-not-a-channel-manager/"><link rel="icon" href="/favicon.ico"><!-- Agent discovery. Static-only site: no response headers or content negotiation, so the same relations
+         are advertised here, and every route has a build-time Markdown twin at <route>.md. --><link rel="alternate" type="text/markdown" href="/blog/ical-is-not-a-channel-manager.md" title="Markdown version of this page"><link rel="api-catalog" href="/.well-known/api-catalog"><link rel="describedby" type="text/markdown" href="/llms.txt" title="llms.txt"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:site_name" content="cybars69"><meta property="og:title" content="iCal is not a channel manager: what ARI restrictions are and why a booking engine needs them - cybars69"><meta property="og:description" content="An audit of a stays marketplace against what a real online travel agency needs, and the availability, rates and inventory model behind it."><meta property="og:url" content="https://cybars69.github.io/blog/ical-is-not-a-channel-manager/"><meta property="og:image" content="https://cybars69.github.io/images/arse.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cybars69.github.io/images/arse.jpg"><script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/fd0871e9e0.js" crossorigin="anonymous"></script><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script><link rel="stylesheet" href="/_astro/Layout.UTCX8eE_.css"></head><body><nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border"><a class="navbar-brand" href="/"><h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3><h3 class="logo-top pt-2" id="short-text">Arsalan</h3></a><button class="navbar-toggler text-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><img src="/images/hamburger.svg" alt="navbar hamburger arsalan sheikh" height="20px" style="color: #FAFAD2;"></button><div class="collapse navbar-collapse mx-5 pt-1" id="navbarSupportedContent"><ul class="navbar-nav ml-auto"><li class="nav-item"><a class="nav-link" href="/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Home</p></div></a></li><li class="nav-item"><a class="nav-link" href="/tools/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Tools</p></div></a></li><li class="nav-item"><a class="nav-link" href="/blog/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link active-nav">Blog</p></div></a></li><li class="nav-item"><a class="nav-link" href="/projects/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Projects</p></div></a></li><li class="nav-item"><a class="nav-link" href="/links/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Links</p></div></a></li><li class="nav-item"><a class="nav-link" href="/contact/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Contact</p></div></a></li></ul></div></nav><div class="page-top"></div><article class="col-11 col-md-8 col-lg-6 mx-auto frost glow-border border-odd section-card py-4 px-4 mb-5 prose"><div class="tl-when">2026-09-24</div><h1 class="h3 section-title">iCal is not a channel manager: what ARI restrictions are and why a booking engine needs them</h1><p>When I built a stays marketplace for a remote valley in Kashmir, hosts needed a way to keep availability in sync with the calendars they already used. iCal feeds were the quick answer and they do work. But an audit I ran against “what a proper online travel agency (OTA) needs” made the limits very clear, and the gap list is a useful map of the domain.</p>
+<h2 id="what-the-platform-did-well">What the platform did well</h2>
+<p>Around 150 endpoints across six domains: auth, customer, merchant, admin, one webhook and one iCal feed. Supply was strong (properties, room types, rate plans, availability, cancellation policy). Demand was strong (search, quotes, bookings, payments). Operations were strong (approvals, refunds, payouts, disputes, audit logs). Availability was <strong>block-based</strong>, at property, room-type and room-number scope.</p>
+<h2 id="what-ical-actually-carries">What iCal actually carries</h2>
+<p>An iCal feed is a list of busy time ranges. It tells another system <em>when a room is taken</em>. It does not carry:</p>
+<ul>
+<li><strong>prices</strong> or rate plans,</li>
+<li><strong>restrictions</strong> of any kind,</li>
+<li><strong>modifications</strong> to an existing reservation, or</li>
+<li>a way to <strong>reconcile</strong> what each side thinks happened.</li>
+</ul>
+<p>That makes it fine for “don’t double-book this room across two calendars” and useless for distribution, where a partner needs to know prices and rules per night, and needs to be told when they change.</p>
+<h2 id="ari-availability-rates-inventory">ARI: availability, rates, inventory</h2>
+<p>Channel managers exchange <strong>ARI</strong> (availability, rates and inventory) with per-night data. The audit’s biggest finding was that the restriction layer was missing entirely. The terms are worth knowing:</p>
+<table>
+<thead>
+<tr>
+<th>Restriction</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CTA</strong> (closed to arrival)</td>
+<td>Guests can stay <em>through</em> this night but cannot <em>arrive</em> on it</td>
+</tr>
+<tr>
+<td><strong>CTD</strong> (closed to departure)</td>
+<td>The mirror image, for the last night</td>
+</tr>
+<tr>
+<td><strong>Stop-sell</strong></td>
+<td>Not bookable at all, without changing the underlying availability count</td>
+</tr>
+<tr>
+<td><strong>Min / max length of stay</strong></td>
+<td>Bounds on the number of nights, per arrival date</td>
+</tr>
+<tr>
+<td><strong>Release period</strong></td>
+<td>A cut-off: no bookings within N days of arrival</td>
+</tr>
+<tr>
+<td><strong>Per-channel overrides</strong></td>
+<td>Different rules and prices for different distribution partners</td>
+</tr>
+<tr>
+<td><strong>Derived rates</strong></td>
+<td>A rate defined as an adjustment on another (for example breakfast-included is base plus a fixed amount)</td>
+</tr>
+</tbody>
+</table>
+<p>A sketch of where they live in a data model, keyed by room type and date rather than stored on the booking:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#F97583">CREATE</span><span style="color:#F97583"> TABLE</span><span style="color:#B392F0"> ari_restrictions</span><span style="color:#E1E4E8"> (</span></span>
+<span class="line"><span style="color:#E1E4E8">  room_type_id  uuid </span><span style="color:#F97583">NOT NULL</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">  night         </span><span style="color:#F97583">date</span><span style="color:#F97583"> NOT NULL</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">  channel_id    uuid,            </span><span style="color:#6A737D">-- NULL = applies to all channels</span></span>
+<span class="line"><span style="color:#E1E4E8">  stop_sell     </span><span style="color:#F97583">boolean</span><span style="color:#F97583"> NOT NULL</span><span style="color:#F97583"> DEFAULT</span><span style="color:#E1E4E8"> false,</span></span>
+<span class="line"><span style="color:#E1E4E8">  closed_to_arrival    </span><span style="color:#F97583">boolean</span><span style="color:#F97583"> NOT NULL</span><span style="color:#F97583"> DEFAULT</span><span style="color:#E1E4E8"> false,</span></span>
+<span class="line"><span style="color:#E1E4E8">  closed_to_departure  </span><span style="color:#F97583">boolean</span><span style="color:#F97583"> NOT NULL</span><span style="color:#F97583"> DEFAULT</span><span style="color:#E1E4E8"> false,</span></span>
+<span class="line"><span style="color:#E1E4E8">  min_los       </span><span style="color:#F97583">smallint</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">  max_los       </span><span style="color:#F97583">smallint</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">  release_days  </span><span style="color:#F97583">smallint</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#F97583">  PRIMARY KEY</span><span style="color:#E1E4E8"> (room_type_id, night, channel_id)</span></span>
+<span class="line"><span style="color:#E1E4E8">);</span></span></code></pre>
+<p>The important design choice is that restrictions are <strong>per night and per channel</strong>, and the booking engine evaluates them at quote time, not just at confirmation. Bulk <em>delta</em> pushes (only what changed) then keep partners current without resending the calendar.</p>
+<h2 id="the-booking-lifecycle-had-holes-too">The booking lifecycle had holes too</h2>
+<p>The core flow was quote, payment, confirmation. A real OTA also needs:</p>
+<ul>
+<li><strong>amendments</strong> (change dates or guests),</li>
+<li><strong>partial cancellation</strong>,</li>
+<li><strong>no-show</strong> and <strong>early departure or extension</strong> handling,</li>
+<li><strong>invoices and receipts</strong> (there was no endpoint to download one),</li>
+<li>and <strong>reconciliation artefacts</strong> for merchants.</li>
+</ul>
+<p>None of those are exotic. They are what happens on day three of a real guest’s stay.</p>
+<h2 id="other-gaps-the-audit-named">Other gaps the audit named</h2>
+<p>Dynamic or demand-based pricing (rules were static), no overbooking protection documented, no consistent error-code taxonomy or rate limiting on the API, no customer-side review creation (only merchant moderation), single-currency assumptions, and a reports page that was a stub. Writing them next to the strengths kept the conversation about launch scope honest.</p>
+<h2 id="what-i-took-from-it">What I took from it</h2>
+<ul>
+<li>Treat <strong>iCal as a safety net for double-booking</strong>, not as distribution.</li>
+<li>Model restrictions as <strong>per-night, per-channel data</strong>.</li>
+<li>Audit against the domain’s actual lifecycle, not against your own feature list.</li>
+<li>Say what the platform is <em>not</em> yet: the audit’s most valuable line was a percentage, and it was not flattering.</li>
+</ul>
+<div class="mt-4"><a href="/blog/" class="stack-more">← All posts</a></div></article></body></html>

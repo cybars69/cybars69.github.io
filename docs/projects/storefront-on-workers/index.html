@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Storefront on Workers - cybars69</title><meta name="description" content="A small storefront built to live inside Cloudflare's free tier: React, Hono, Workers KV and Stripe, with a repo designed for coding agents."><link rel="canonical" href="https://cybars69.github.io/projects/storefront-on-workers/"><link rel="icon" href="/favicon.ico"><!-- Agent discovery. Static-only site: no response headers or content negotiation, so the same relations
+         are advertised here, and every route has a build-time Markdown twin at <route>.md. --><link rel="alternate" type="text/markdown" href="/projects/storefront-on-workers.md" title="Markdown version of this page"><link rel="api-catalog" href="/.well-known/api-catalog"><link rel="describedby" type="text/markdown" href="/llms.txt" title="llms.txt"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:site_name" content="cybars69"><meta property="og:title" content="Storefront on Workers - cybars69"><meta property="og:description" content="A small storefront built to live inside Cloudflare's free tier: React, Hono, Workers KV and Stripe, with a repo designed for coding agents."><meta property="og:url" content="https://cybars69.github.io/projects/storefront-on-workers/"><meta property="og:image" content="https://cybars69.github.io/images/projects/storefront-on-workers.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cybars69.github.io/images/projects/storefront-on-workers.png"><script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/fd0871e9e0.js" crossorigin="anonymous"></script><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script><link rel="stylesheet" href="/_astro/Layout.UTCX8eE_.css"></head><body><nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border"><a class="navbar-brand" href="/"><h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3><h3 class="logo-top pt-2" id="short-text">Arsalan</h3></a><button class="navbar-toggler text-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><img src="/images/hamburger.svg" alt="navbar hamburger arsalan sheikh" height="20px" style="color: #FAFAD2;"></button><div class="collapse navbar-collapse mx-5 pt-1" id="navbarSupportedContent"><ul class="navbar-nav ml-auto"><li class="nav-item"><a class="nav-link" href="/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Home</p></div></a></li><li class="nav-item"><a class="nav-link" href="/tools/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Tools</p></div></a></li><li class="nav-item"><a class="nav-link" href="/blog/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Blog</p></div></a></li><li class="nav-item"><a class="nav-link" href="/projects/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link active-nav">Projects</p></div></a></li><li class="nav-item"><a class="nav-link" href="/links/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Links</p></div></a></li><li class="nav-item"><a class="nav-link" href="/contact/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Contact</p></div></a></li></ul></div></nav><div class="page-top"></div><article class="col-11 col-md-9 col-lg-7 mx-auto frost glow-border border-odd section-card py-4 px-4 mb-5 prose"><a href="/projects/" class="stack-more">← All projects</a><div class="project-hero mt-3"><img src="/images/projects/storefront-on-workers.png" alt="Diagram: React, Hono Worker, Workers KV and Stripe, with admin tokens and R2 media"></div><h1 class="h3 section-title mt-4">Storefront on Workers</h1><div class="project-kind mb-2">Studio work · anonymized</div><div><span class="tag-chip">Cloudflare Workers</span><span class="tag-chip">Hono</span><span class="tag-chip">Stripe</span><span class="tag-chip">React</span></div><div class="mt-4"><p>A minimal online shop that runs entirely on Cloudflare and is designed to stay inside its free tier while still being fast and secure.</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frontend</td>
+<td>Vite, React, Tailwind CSS</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td>Cloudflare Workers with Hono</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>Workers KV for products, collections and settings</td>
+</tr>
+<tr>
+<td>Payments</td>
+<td>Stripe</td>
+</tr>
+<tr>
+<td>Admin auth</td>
+<td>Token-based</td>
+</tr>
+<tr>
+<td>Deploy</td>
+<td>Wrangler</td>
+</tr>
+</tbody>
+</table>
+<p>It began on Pages Functions and moved to a Worker that serves static assets and the API together, which simplified routing, bindings and deployment.</p>
+<h2 id="a-repo-built-for-agents">A repo built for agents</h2>
+<p>The more interesting part is the repository itself. It follows a harness-engineering approach: a short <code>AGENTS.md</code> that is a table of contents rather than a manual, a structured <code>docs/</code> knowledge base, mechanical checks in CI (docs structure and architecture import layers), and a graded quality score per domain so that anyone, human or agent, knows where the weak spots are.</p>
+<p>More in <a href="/blog/repo-as-system-of-record/">the repo is the system of record</a>.</p>
+<h2 id="stack">Stack</h2>
+<p>Cloudflare Workers, Workers KV, Hono, React, Tailwind, Stripe, Vitest.</p>
+<h2 id="deep-dives">Deep dives</h2>
+<ul>
+<li><a href="/blog/a-shop-on-a-key-value-store/">A shop on a key-value store</a></li>
+<li><a href="/blog/repo-as-system-of-record/">The repo is the system of record</a></li>
+</ul>
+</div></article></body></html>

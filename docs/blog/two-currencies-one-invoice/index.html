@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Two currencies, one invoice: keeping subscription billing and shopper commerce apart - cybars69</title><meta name="description" content="A multi-tenant platform that bills merchants in one currency while their shoppers pay in another, and the bugs that appear when the two share a field."><link rel="canonical" href="https://cybars69.github.io/blog/two-currencies-one-invoice/"><link rel="icon" href="/favicon.ico"><!-- Agent discovery. Static-only site: no response headers or content negotiation, so the same relations
+         are advertised here, and every route has a build-time Markdown twin at <route>.md. --><link rel="alternate" type="text/markdown" href="/blog/two-currencies-one-invoice.md" title="Markdown version of this page"><link rel="api-catalog" href="/.well-known/api-catalog"><link rel="describedby" type="text/markdown" href="/llms.txt" title="llms.txt"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:site_name" content="cybars69"><meta property="og:title" content="Two currencies, one invoice: keeping subscription billing and shopper commerce apart - cybars69"><meta property="og:description" content="A multi-tenant platform that bills merchants in one currency while their shoppers pay in another, and the bugs that appear when the two share a field."><meta property="og:url" content="https://cybars69.github.io/blog/two-currencies-one-invoice/"><meta property="og:image" content="https://cybars69.github.io/images/arse.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cybars69.github.io/images/arse.jpg"><script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/fd0871e9e0.js" crossorigin="anonymous"></script><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script><link rel="stylesheet" href="/_astro/Layout.UTCX8eE_.css"></head><body><nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border"><a class="navbar-brand" href="/"><h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3><h3 class="logo-top pt-2" id="short-text">Arsalan</h3></a><button class="navbar-toggler text-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><img src="/images/hamburger.svg" alt="navbar hamburger arsalan sheikh" height="20px" style="color: #FAFAD2;"></button><div class="collapse navbar-collapse mx-5 pt-1" id="navbarSupportedContent"><ul class="navbar-nav ml-auto"><li class="nav-item"><a class="nav-link" href="/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Home</p></div></a></li><li class="nav-item"><a class="nav-link" href="/tools/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Tools</p></div></a></li><li class="nav-item"><a class="nav-link" href="/blog/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link active-nav">Blog</p></div></a></li><li class="nav-item"><a class="nav-link" href="/projects/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Projects</p></div></a></li><li class="nav-item"><a class="nav-link" href="/links/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Links</p></div></a></li><li class="nav-item"><a class="nav-link" href="/contact/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Contact</p></div></a></li></ul></div></nav><div class="page-top"></div><article class="col-11 col-md-8 col-lg-6 mx-auto frost glow-border border-odd section-card py-4 px-4 mb-5 prose"><div class="tl-when">2026-09-24</div><h1 class="h3 section-title">Two currencies, one invoice: keeping subscription billing and shopper commerce apart</h1><p>A platform that hosts stores has two completely separate money flows. The <strong>merchant</strong> pays the platform a subscription. The <strong>shopper</strong> pays the merchant for goods. They involve different people, providers and currencies, and the moment they share a field, a bug appears.</p>
+<h2 id="the-bug-that-named-the-problem">The bug that named the problem</h2>
+<p>An audit of the merchant-facing admin found this: the store’s usage panel formatted the plan’s <strong>overage price</strong> using the store’s <em>shopper settlement currency</em>. The entitlement contained no billing currency at all, so the admin guessed. A subscription billed in one currency could be labelled with a completely different one, purely because that is what the storefront sold in.</p>
+<p>The fix wasn’t a formatting tweak. It was to carry the <strong>signed subscription currency</strong> as its own value, and to render platform charges and overage with it, never with the shopper’s currency.</p>
+<h2 id="two-currencies-two-lifecycles">Two currencies, two lifecycles</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Subscription (merchant to platform)</th>
+<th>Settlement (shopper to merchant)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Set by</td>
+<td>Billing country the merchant confirms</td>
+<td>The merchant, <strong>before activation</strong></td>
+</tr>
+<tr>
+<td>Mutable?</td>
+<td>Prices are immutable versions</td>
+<td><strong>Immutable once activated</strong> on a hosted store</td>
+</tr>
+<tr>
+<td>Lives in</td>
+<td>Control-plane price books</td>
+<td>Control-plane row, then a deploy variable, then the store’s database</td>
+</tr>
+<tr>
+<td>Used for</td>
+<td>Plan charges and overage</td>
+<td>Product prices, checkout, refunds, taxes, reports</td>
+</tr>
+</tbody>
+</table>
+<p>The settlement currency is protected by a chain: the control-plane row is protected against later updates, every deployment publishes it as a default-currency variable, and the store <strong>reconciles its database against it at boot</strong> before serving. The admin, the REST API and the agent interface all expose it read-only on hosted stores, so there is no path that changes what a product’s number means after orders exist. Self-hosted stores keep local control.</p>
+<h2 id="regional-price-books-are-versions">Regional price books are versions</h2>
+<p>Prices used to be three independently editable totals with one global currency. The replacement is a set of <strong>immutable, versioned price books</strong> per market:</p>
+<ul>
+<li>each version records the market, the payment provider mapping and FX approval provenance;</li>
+<li>approved monetary versions cannot be edited, only superseded;</li>
+<li>a merchant’s subscription <strong>freezes the price version</strong> they accepted, so a later price change can’t alter what they were promised;</li>
+<li>publishing goes through draft, approve, schedule, publish and retire, with audited recovery.</li>
+</ul>
+<p>Entitlements remain a separate concern, so a price change never silently changes what a plan <em>does</em>.</p>
+<h2 id="which-provider-which-market">Which provider, which market</h2>
+<p>The billing provider is chosen by an <strong>explicitly confirmed billing country</strong>, not by inference. The request’s country header from the CDN is treated as a <em>suggestion only</em>: it pre-selects, and the merchant confirms. If the provider and country conflict, activation stops and requires reconfirmation. Guessing a person’s billing jurisdiction from an IP address is how you charge the wrong entity in the wrong currency.</p>
+<h2 id="the-payment-safe-boundary">The payment-safe boundary</h2>
+<p>The commercial policy is simple: <strong>no mid-cycle upgrades, downgrades or proration.</strong> A merchant schedules a change for the renewal boundary. The current plan stays active for the paid period, and the replacement starts only after the renewal payment succeeds, at the frozen price. There is no unused-time credit and no cancel-and-repurchase gap.</p>
+<p>The interesting engineering is in <em>when</em> the new entitlements turn on. After a successful payment webhook, the system <strong>retrieves the provider’s subscription</strong> to get the authoritative paid-period boundaries. If that lookup fails, the invoice is still reconciled and audited, but the target entitlement stays <strong>unapplied</strong>. It does not guess from the webhook’s timestamp. Entitlements are activated only by evidence of a paid period, never by an event that merely implies one. And operator tools for retrying, reconciling or cancelling a plan change exist, but by design they <strong>cannot activate entitlements</strong>, only the payment evidence can.</p>
+<h2 id="takeaways">Takeaways</h2>
+<ul>
+<li>Give every currency its own field, name and lifecycle.</li>
+<li>Make prices <strong>immutable versions</strong> and freeze the one a customer accepted.</li>
+<li>Treat country and locale hints as suggestions, and require confirmation.</li>
+<li>Activate paid features from <em>authoritative provider data</em>, and fail toward “not yet applied”.</li>
+</ul>
+<div class="mt-4"><a href="/blog/" class="stack-more">← All posts</a></div></article></body></html>

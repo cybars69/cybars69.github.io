@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Nonslop Sidebar - cybars69</title><meta name="description" content="A UX-first sidebar navigation skill for AI coding agents. Accessible, responsive, and actually usable."><link rel="canonical" href="https://cybars69.github.io/projects/nonslop-sidebar/"><link rel="icon" href="/favicon.ico"><!-- Agent discovery. Static-only site: no response headers or content negotiation, so the same relations
+         are advertised here, and every route has a build-time Markdown twin at <route>.md. --><link rel="alternate" type="text/markdown" href="/projects/nonslop-sidebar.md" title="Markdown version of this page"><link rel="api-catalog" href="/.well-known/api-catalog"><link rel="describedby" type="text/markdown" href="/llms.txt" title="llms.txt"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:site_name" content="cybars69"><meta property="og:title" content="Nonslop Sidebar - cybars69"><meta property="og:description" content="A UX-first sidebar navigation skill for AI coding agents. Accessible, responsive, and actually usable."><meta property="og:url" content="https://cybars69.github.io/projects/nonslop-sidebar/"><meta property="og:image" content="https://cybars69.github.io/images/projects/nonslop-sidebar-after.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cybars69.github.io/images/projects/nonslop-sidebar-after.png"><script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/fd0871e9e0.js" crossorigin="anonymous"></script><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script><link rel="stylesheet" href="/_astro/Layout.UTCX8eE_.css"></head><body><nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border"><a class="navbar-brand" href="/"><h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3><h3 class="logo-top pt-2" id="short-text">Arsalan</h3></a><button class="navbar-toggler text-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><img src="/images/hamburger.svg" alt="navbar hamburger arsalan sheikh" height="20px" style="color: #FAFAD2;"></button><div class="collapse navbar-collapse mx-5 pt-1" id="navbarSupportedContent"><ul class="navbar-nav ml-auto"><li class="nav-item"><a class="nav-link" href="/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Home</p></div></a></li><li class="nav-item"><a class="nav-link" href="/tools/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Tools</p></div></a></li><li class="nav-item"><a class="nav-link" href="/blog/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Blog</p></div></a></li><li class="nav-item"><a class="nav-link" href="/projects/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link active-nav">Projects</p></div></a></li><li class="nav-item"><a class="nav-link" href="/links/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Links</p></div></a></li><li class="nav-item"><a class="nav-link" href="/contact/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Contact</p></div></a></li></ul></div></nav><div class="page-top"></div><article class="col-11 col-md-10 col-lg-8 mx-auto frost glow-border border-odd section-card py-4 px-4 mb-5 prose readme"><a href="/projects/" class="stack-more">← All projects</a><div class="mt-3"><!-- Synced verbatim from cybars69/nonslop-sidebar/README.md by scripts/sync-skill-readmes.mjs. Edit the README, then run `npm run sync:skills`. -->
+<div align="center">
+<h1 id="nonslop-sidebar">Nonslop Sidebar</h1>
+<h3 id="the-ux-first-sidebar-navigation-skill-for-ai-coding-agents">The UX-first sidebar navigation skill for AI coding agents</h3>
+<p>Design accessible, responsive, and genuinely usable sidebars for SaaS dashboards, web apps, admin panels, internal portals, public websites, and native Apple applications.</p>
+<p><a href="https://github.com/cybars69/nonslop-sidebar/stargazers"><img src="https://img.shields.io/github/stars/cybars69/nonslop-sidebar?style=for-the-badge&amp;logo=github&amp;label=Stars&amp;color=F4B942" alt="GitHub stars"></a>
+<a href="https://github.com/cybars69/nonslop-sidebar/tree/main/LICENSE"><img src="https://img.shields.io/github/license/cybars69/nonslop-sidebar?style=for-the-badge&amp;color=4C956C" alt="MIT License"></a>
+<a href="https://github.com/vercel-labs/skills"><img src="https://img.shields.io/badge/Agent%20Skills-compatible-7357FF?style=for-the-badge" alt="Agent Skills compatible"></a>
+<a href="https://github.com/cybars69/nonslop-sidebar/blob/main/SKILL.md"><img src="https://img.shields.io/badge/skill-validation-passing-2A9D8F?style=for-the-badge" alt="Skill validation"></a></p>
+<br />
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">npx</span><span style="color:#9ECBFF"> skills</span><span style="color:#9ECBFF"> add</span><span style="color:#9ECBFF"> cybars69/nonslop-sidebar</span><span style="color:#79B8FF"> --skill</span><span style="color:#9ECBFF"> nonslop-sidebar</span></span></code></pre>
+<p><sub>Works with Codex, Claude Code, Cursor, and other agents that support the open Agent Skills format.</sub></p>
+<br />
+<p><a href="#install-the-sidebar-ux-skill">Install</a> · <a href="#what-nonslop-sidebar-solves">What it solves</a> · <a href="#how-the-skill-works">How it works</a> · <a href="#responsive-sidebar-and-mobile-navigation-rules">Mobile rules</a> · <a href="#frequently-asked-questions">FAQ</a> · <a href="#research-and-ux-sources">Research</a></p>
+</div>
+<hr>
+<h2 id="what-is-nonslop-sidebar">What is Nonslop Sidebar?</h2>
+<p><strong>Nonslop Sidebar is an open-source sidebar UX skill for AI coding agents.</strong> It teaches Codex, Claude Code, Cursor, and compatible agents how to design, audit, and improve sidebar navigation using information architecture, usability, accessibility, responsive behavior, and platform conventions.</p>
+<p>Most sidebar guidance starts with component styling. Nonslop Sidebar starts with the questions that determine whether navigation actually works:</p>
+<ul>
+<li>Can people immediately tell where they are?</li>
+<li>Do labels match the user’s language and mental model?</li>
+<li>Are frequent destinations visible without burying everything else?</li>
+<li>Does the hierarchy remain understandable as the product grows?</li>
+<li>Can keyboard, touch, screen-reader, zoom, and right-to-left users navigate it?</li>
+<li>Does the mobile pattern fit an internal application or a public-facing product?</li>
+</ul>
+<p>The result is a practical framework for sidebar navigation design—not another collection of attractive but context-free UI rules.</p>
+<h2 id="sidebar-ux-redesign-from-feature-list-to-clear-wayfinding">Sidebar UX redesign: from feature list to clear wayfinding</h2>
+<p align="center">
+  <strong>Same product. Same destination. A navigation model users can scan.</strong><br />
+  <sub>A real sidebar redesign shown with matching 30% screen crops.</sub>
+</p>
+<table align="center">
+  <tr>
+    <th align="center" width="50%">01 · BEFORE</th>
+    <th align="center" width="50%">02 · AFTER</th>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+      <img src="/images/skills/nonslop-sidebar/sidebar-before.png" alt="Before sidebar UX redesign showing a flat navigation hierarchy beside the WLLMS product workspace" width="100%" />
+    </td>
+    <td align="center" valign="top">
+      <img src="/images/skills/nonslop-sidebar/sidebar-after.png" alt="After sidebar UX redesign showing task-based groups, disclosure controls, and a clear active destination in WLLMS" width="100%" />
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <strong>Flat feature inventory</strong><br />
+      <sub>Weak grouping, unclear priority, and unrelated destinations competing at the same level.</sub>
+    </td>
+    <td valign="top">
+      <strong>Task-oriented navigation</strong><br />
+      <sub>Clear domains, progressive disclosure, stronger orientation, and room for the product to grow.</sub>
+    </td>
+  </tr>
+</table>
+<blockquote>
+<p><strong>What changed:</strong> Related destinations became recognizable groups, expandable areas now communicate depth, labels remain visible, the current location is unmistakable, and lower-priority content no longer competes with primary tasks.</p>
+</blockquote>
+<h2 id="install-the-sidebar-ux-skill">Install the sidebar UX skill</h2>
+<h3 id="install-with-npx-skills">Install with <code>npx skills</code></h3>
+<p>Install the skill from GitHub using the open Agent Skills CLI:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">npx</span><span style="color:#9ECBFF"> skills</span><span style="color:#9ECBFF"> add</span><span style="color:#9ECBFF"> cybars69/nonslop-sidebar</span><span style="color:#79B8FF"> --skill</span><span style="color:#9ECBFF"> nonslop-sidebar</span></span></code></pre>
+<p>Install it globally for all supported projects and agents:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">npx</span><span style="color:#9ECBFF"> skills</span><span style="color:#9ECBFF"> add</span><span style="color:#9ECBFF"> cybars69/nonslop-sidebar</span><span style="color:#79B8FF"> --skill</span><span style="color:#9ECBFF"> nonslop-sidebar</span><span style="color:#79B8FF"> -g</span></span></code></pre>
+<p>List the skills detected in the repository before installing:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">npx</span><span style="color:#9ECBFF"> skills</span><span style="color:#9ECBFF"> add</span><span style="color:#9ECBFF"> cybars69/nonslop-sidebar</span><span style="color:#79B8FF"> --list</span></span></code></pre>
+<h3 id="install-manually-for-codex">Install manually for Codex</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> clone</span><span style="color:#9ECBFF"> https://github.com/cybars69/nonslop-sidebar.git</span><span style="color:#9ECBFF"> ~/.codex/skills/nonslop-sidebar</span></span></code></pre>
+<p>The repository root is the skill directory. There is no build step, package dependency, or runtime service.</p>
+<h3 id="invoke-the-skill">Invoke the skill</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Use $nonslop-sidebar to audit the sidebar navigation in this application.</span></span></code></pre>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Use $nonslop-sidebar to redesign this internal portal's desktop and mobile navigation.</span></span></code></pre>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Use $nonslop-sidebar to review this macOS sidebar against Apple platform conventions.</span></span></code></pre>
+<h2 id="what-nonslop-sidebar-solves">What Nonslop Sidebar solves</h2>
+<table>
+<thead>
+<tr>
+<th>Sidebar UX problem</th>
+<th>What the skill decides</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flat, crowded navigation</td>
+<td>Task-based grouping, priority, hierarchy, and disclosure</td>
+</tr>
+<tr>
+<td>Users cannot tell where they are</td>
+<td>Active-location semantics, state design, and orientation</td>
+</tr>
+<tr>
+<td>Ambiguous icon-only menus</td>
+<td>When labels are required and when user-controlled collapse is safe</td>
+</tr>
+<tr>
+<td>Inconsistent mobile navigation</td>
+<td>Product-aware drawer and bottom-navigation behavior</td>
+</tr>
+<tr>
+<td>Sidebars that break at narrow widths</td>
+<td>Content-tested resizing and responsive adaptation</td>
+</tr>
+<tr>
+<td>Deep, confusing nested menus</td>
+<td>A two-level sidebar limit with clearer alternatives for deeper structures</td>
+</tr>
+<tr>
+<td>Poor keyboard or screen-reader support</td>
+<td>Semantics, focus movement, disclosure state, and target requirements</td>
+</tr>
+<tr>
+<td>Role-specific navigation drift</td>
+<td>Conditional destinations inside a stable shared mental model</td>
+</tr>
+<tr>
+<td>Unclear account or workspace context</td>
+<td>Visible context, safe switching, and immediate feedback</td>
+</tr>
+<tr>
+<td>Visual redesigns that ignore the real problem</td>
+<td>Information-architecture review before styling</td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-the-skill-works">How the skill works</h2>
+<p>Nonslop Sidebar guides an agent through a UX-first sequence:</p>
+<ol>
+<li><strong>Identify the product context.</strong> Public website, internal portal, frequently used application, or native platform.</li>
+<li><strong>Confirm that a sidebar fits.</strong> A sidebar is useful for broad or growing navigation, but it always consumes content space.</li>
+<li><strong>Map the information architecture.</strong> Rank destinations by frequency, importance, evidence, and user mental model.</li>
+<li><strong>Define hierarchy and labels.</strong> Prefer specific, keyword-front-loaded labels and no more than two sidebar levels.</li>
+<li><strong>Specify interaction behavior.</strong> Active, hover, focus, expanded, collapsed, scrolling, resizing, and role-dependent states.</li>
+<li><strong>Adapt across screen sizes.</strong> Preserve access and orientation while choosing the right compact navigation model.</li>
+<li><strong>Validate with realistic tasks.</strong> Test real content, localization, keyboard use, zoom, assistive technology, and narrow windows.</li>
+</ol>
+<blockquote>
+<p><strong>Structure first. Orientation always. Styling only when it improves use.</strong></p>
+</blockquote>
+<h2 id="responsive-sidebar-and-mobile-navigation-rules">Responsive sidebar and mobile navigation rules</h2>
+<p>The skill does not rely on one universal breakpoint. Compact behavior begins when the sidebar and the primary task can no longer coexist usefully.</p>
+<table>
+<thead>
+<tr>
+<th>Product type</th>
+<th>Recommended mobile navigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Internal portal or application</strong></td>
+<td>Show the <strong>3–5 most important and most frequently used destinations</strong> in a persistent bottom bar. Keep the complete navigation in an openable side drawer.</td>
+</tr>
+<tr>
+<td><strong>Public-facing product</strong></td>
+<td>Put the complete navigation in an openable side drawer. <strong>Do not add bottom navigation.</strong></td>
+</tr>
+</tbody>
+</table>
+<p>For internal portals, the bottom bar is a prioritized subset of the drawer—not a second competing information architecture. Labels, order, destination identity, and active state remain consistent.</p>
+<h2 id="core-sidebar-ux-principles">Core sidebar UX principles</h2>
+<ul>
+<li><strong>Keep navigation visible on desktop.</strong> Do not hide a useful sidebar behind a hamburger merely to make the interface look minimal.</li>
+<li><strong>Treat five to seven primary items as a target, not a law.</strong> Broad information architectures may need more specific visible categories.</li>
+<li><strong>Show labels by default.</strong> Icons support recognition but should not force users to decode navigation.</li>
+<li><strong>Limit sidebar hierarchy to two levels.</strong> Use another pane, browser view, list, or search for deeper structures.</li>
+<li><strong>Place navigation on the leading side.</strong> Left for left-to-right interfaces and right for right-to-left interfaces.</li>
+<li><strong>Keep the active destination unmistakable.</strong> Visual styling and programmatic semantics must agree.</li>
+<li><strong>Protect critical actions.</strong> Do not place the only instance of a critical action at the bottom edge or inside a contextual menu.</li>
+<li><strong>Test widths with real content.</strong> Rough web ranges are useful starting points, not universal requirements.</li>
+<li><strong>Respect native platforms.</strong> Current platform conventions override generic web heuristics.</li>
+<li><strong>Validate behavior, not preference.</strong> Measure findability, task completion, wrong turns, recovery, and orientation.</li>
+</ul>
+<h2 id="what-is-included">What is included?</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>nonslop-sidebar/</span></span>
+<span class="line"><span>├── SKILL.md</span></span>
+<span class="line"><span>├── agents/</span></span>
+<span class="line"><span>│   └── openai.yaml</span></span>
+<span class="line"><span>├── references/</span></span>
+<span class="line"><span>│   ├── audit-checklist.md</span></span>
+<span class="line"><span>│   ├── responsive-and-platform.md</span></span>
+<span class="line"><span>│   ├── sidebar-ux-guidelines.md</span></span>
+<span class="line"><span>│   └── source-map.md</span></span>
+<span class="line"><span>├── CITATION.cff</span></span>
+<span class="line"><span>├── CONTRIBUTING.md</span></span>
+<span class="line"><span>├── LICENSE</span></span>
+<span class="line"><span>└── THIRD_PARTY_NOTICES.md</span></span></code></pre>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/cybars69/nonslop-sidebar/blob/main/SKILL.md"><code>SKILL.md</code></a></td>
+<td>Compact entry point, decision order, and reference routing</td>
+</tr>
+<tr>
+<td><a href="https://github.com/cybars69/nonslop-sidebar/blob/main/references/sidebar-ux-guidelines.md"><code>sidebar-ux-guidelines.md</code></a></td>
+<td>Complete sidebar information-architecture, interaction, accessibility, and validation guidance</td>
+</tr>
+<tr>
+<td><a href="https://github.com/cybars69/nonslop-sidebar/blob/main/references/responsive-and-platform.md"><code>responsive-and-platform.md</code></a></td>
+<td>Responsive web, mobile portal, public-product, macOS, iPadOS, and iOS behavior</td>
+</tr>
+<tr>
+<td><a href="https://github.com/cybars69/nonslop-sidebar/blob/main/references/audit-checklist.md"><code>audit-checklist.md</code></a></td>
+<td>Evidence-based sidebar UX audit and test methods</td>
+</tr>
+<tr>
+<td><a href="https://github.com/cybars69/nonslop-sidebar/blob/main/references/source-map.md"><code>source-map.md</code></a></td>
+<td>Research provenance and explicit conflict resolutions</td>
+</tr>
+</tbody>
+</table>
+<h2 id="who-should-use-this-skill">Who should use this skill?</h2>
+<ul>
+<li>Product designers working on complex navigation or information architecture</li>
+<li>UX researchers evaluating findability and orientation</li>
+<li>Frontend engineers implementing accessible sidebar components</li>
+<li>Design-system teams documenting navigation behavior</li>
+<li>SaaS, dashboard, CRM, ERP, admin-panel, and internal-tool teams</li>
+<li>AI coding-agent users who want stronger UX reasoning before UI implementation</li>
+</ul>
+<p>The skill is framework-agnostic. Its decisions can be applied to React, Next.js, Vue, Svelte, Angular, native Apple apps, or any other interface stack.</p>
+<h2 id="research-and-ux-sources">Research and UX sources</h2>
+<p>Nonslop Sidebar synthesizes guidance from:</p>
+<ul>
+<li><a href="https://developer.apple.com/design/human-interface-guidelines/sidebars">Apple Human Interface Guidelines: Sidebars</a></li>
+<li><a href="https://www.nngroup.com/articles/vertical-nav/">Nielsen Norman Group: Left-Side Vertical Navigation on Desktop</a></li>
+<li><a href="https://uxplanet.org/best-ux-practices-for-designing-a-sidebar-9174ee0ecaa2">UX Planet: Best UX Practices for Designing a Sidebar</a></li>
+<li><a href="https://www.alfdesigngroup.com/post/improve-your-sidebar-design-for-web-apps">ALF Design Group: Sidebar Navigation Design</a></li>
+<li><a href="https://marioaguzman.github.io/design/sidebarguidelines/">Mario A. Guzman: Sidebar Guidelines</a></li>
+<li><a href="https://uxplanet.org/case-study-research-sidebar-navigation-b41272026c6d">UX Planet: Case Study Research—Sidebar Navigation</a></li>
+<li><a href="https://daily.dev/posts/best-ux-practices-for-designing-a-sidebar-hl5ubfck5">daily.dev: Best UX Practices for Designing a Sidebar</a></li>
+</ul>
+<p>The sources do not always agree. <a href="https://github.com/cybars69/nonslop-sidebar/blob/main/references/source-map.md"><code>references/source-map.md</code></a> records how conflicting advice about item counts, hierarchy, icon-only collapse, bottom content, width, mobile navigation, and visual prominence was resolved.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="what-is-an-ai-agent-skill">What is an AI agent skill?</h3>
+<p>An AI agent skill is a folder containing a <code>SKILL.md</code> file and optional references, scripts, or assets. The skill gives compatible agents reusable instructions for a specific workflow. Nonslop Sidebar gives agents a repeatable process for sidebar UX design and auditing.</p>
+<h3 id="is-nonslop-sidebar-a-react-sidebar-component">Is Nonslop Sidebar a React sidebar component?</h3>
+<p>No. Nonslop Sidebar is a framework-agnostic UX skill, not a component library. It helps an agent decide what a sidebar should contain and how it should behave before implementing it in React, Vue, Svelte, Angular, SwiftUI, AppKit, or another stack.</p>
+<h3 id="how-many-items-should-a-sidebar-contain">How many items should a sidebar contain?</h3>
+<p>Five to seven primary items is a useful prioritization target, not a hard maximum. A broad information architecture can expose more top-level categories when specific visible labels improve findability. Less important items should appear lower or inside clearly labeled groups.</p>
+<h3 id="should-sidebar-icons-have-text-labels">Should sidebar icons have text labels?</h3>
+<p>Yes, in the normal expanded state. Icon-only navigation increases ambiguity and cognitive load. A collapsed icon-only mode is appropriate only as a user-controlled option in a frequently used application, with accessible names, tooltips, and a persistent expand control.</p>
+<h3 id="should-a-mobile-app-use-a-drawer-or-bottom-navigation">Should a mobile app use a drawer or bottom navigation?</h3>
+<p>An internal portal should use both: a bottom bar for three to five highest-frequency destinations and a drawer for the full navigation. A public-facing product should use the full drawer without bottom navigation.</p>
+<h3 id="does-the-skill-cover-accessibility">Does the skill cover accessibility?</h3>
+<p>Yes. It covers semantic navigation, links and buttons, current-page state, disclosure state, keyboard traversal, focus movement, touch targets, contrast, zoom, reduced motion, screen readers, localization, and right-to-left layouts.</p>
+<h3 id="does-the-skill-design-the-visual-ui">Does the skill design the visual UI?</h3>
+<p>Only where UI decisions protect the user experience. The primary focus is information architecture, findability, orientation, behavior, accessibility, and validation—not decorative styling.</p>
+<h3 id="can-i-use-it-with-codex-claude-code-and-cursor">Can I use it with Codex, Claude Code, and Cursor?</h3>
+<p>Yes. The skill follows the open Agent Skills format and contains portable instructions and references. Installation details can differ by agent, but <code>npx skills add</code> supports Codex, Claude Code, Cursor, and many other compatible tools.</p>
+<h2 id="validate-the-skill">Validate the skill</h2>
+<p>The repository passes the Codex skill structure validator:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py</span><span style="color:#9ECBFF"> .</span></span></code></pre>
+<p>Structural validation confirms packaging and metadata. It does not replace behavioral testing against realistic product requests.</p>
+<h2 id="contributing">Contributing</h2>
+<p>Contributions are welcome when they improve navigation decisions, accessibility, platform accuracy, or evidence quality. Read <a href="https://github.com/cybars69/nonslop-sidebar/blob/main/CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a> before opening an issue or pull request.</p>
+<h2 id="star-history">Star history</h2>
+<div align="center">
+<a href="https://www.star-history.com/#cybars69/nonslop-sidebar&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=cybars69/nonslop-sidebar&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=cybars69/nonslop-sidebar&type=Date" />
+    <img alt="Nonslop Sidebar GitHub star history" src="https://api.star-history.com/svg?repos=cybars69/nonslop-sidebar&type=Date" />
+  </picture>
+</a>
+</div>
+<h2 id="citation">Citation</h2>
+<p>If this sidebar UX skill supports published research, writing, or a public design system, cite the repository using <a href="https://github.com/cybars69/nonslop-sidebar/blob/main/CITATION.cff"><code>CITATION.cff</code></a>.</p>
+<h2 id="license">License</h2>
+<p><a href="https://github.com/cybars69/nonslop-sidebar/tree/main/LICENSE">MIT License</a> · Copyright © 2026 cybars69</p>
+<p>External articles, platform documentation, product names, and trademarks remain the property of their respective owners. See <a href="https://github.com/cybars69/nonslop-sidebar/blob/main/THIRD_PARTY_NOTICES.md"><code>THIRD_PARTY_NOTICES.md</code></a>.</p>
+<div align="center">
+<p><strong>Build navigation people understand before they have to think about it.</strong></p>
+<p>If Nonslop Sidebar improves your product, consider leaving a ⭐.</p>
+</div>
+</div></article></body></html>

@@ -1,0 +1,12 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://cybars69.github.io/.well-known/api-catalog",
+      "describedby": [{ "href": "https://cybars69.github.io/llms.txt", "type": "text/markdown" }],
+      "item": [
+        { "href": "https://cybars69.github.io/sitemap.xml" },
+        { "href": "https://cybars69.github.io/llms.txt" }
+      ]
+    }
+  ]
+}

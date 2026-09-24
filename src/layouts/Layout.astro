@@ -1,0 +1,56 @@
+---
+import Nav from '../components/Nav.astro';
+import '../styles/index.css';
+import { site } from '../data/site';
+import { twinPath } from '../lib/markdown';
+
+interface Props {
+  title: string;
+  description?: string;
+  active: 'home' | 'tools' | 'blog' | 'projects' | 'links' | 'contact';
+  jsonLd?: object;
+  ogImage?: string;
+}
+const { title, description = site.description, active, jsonLd, ogImage: ogImageProp } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const twin = twinPath(Astro.url.pathname);
+const ogImage = ogImageProp ?? new URL(site.image, site.url).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.ico" />
+    <!-- Agent discovery. Static-only site: no response headers or content negotiation, so the same relations
+         are advertised here, and every route has a build-time Markdown twin at <route>.md. -->
+    {twin && <link rel="alternate" type="text/markdown" href={twin} title="Markdown version of this page" />}
+    <link rel="api-catalog" href="/.well-known/api-catalog" />
+    <link rel="describedby" type="text/markdown" href="/llms.txt" title="llms.txt" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="cybars69" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous" is:inline></script>
+    <script src="https://kit.fontawesome.com/fd0871e9e0.js" crossorigin="anonymous" is:inline></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous" is:inline></script>
+    <slot name="head" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+
+  <body>
+    <Nav active={active} />
+    <slot />
+  </body>
+</html>

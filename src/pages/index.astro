@@ -1,0 +1,158 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site, about, experience, education, skills, linkGroups, socials } from '../data/site';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const featured = projects.filter((p) => p.data.featured);
+const preAi = projects.filter((p) => p.data.era === 'pre-ai');
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf() || a.data.title.localeCompare(b.data.title))
+  .slice(0, 3);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.fullName,
+  alternateName: site.handle,
+  url: site.url,
+  image: new URL(site.image, site.url).href,
+  email: site.email,
+  jobTitle: 'Full Stack Engineer',
+  alumniOf: { '@type': 'CollegeOrUniversity', name: education.school },
+  address: { '@type': 'PostalAddress', addressRegion: 'Kashmir' },
+  sameAs: socials.map((s) => s.href),
+};
+---
+
+<Layout title="Home - cybars69" active="home" jsonLd={jsonLd}>
+  <script slot="head" src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" is:inline></script>
+
+  <div class="py-4 col-10 my-5"></div>
+
+  <div class="col col-3 col-sm-2 col-lg-1 mx-auto my-5">
+    <img src="/images/arse.jpg" width="100%" class="rounded_t" alt="Arsalan sheikh image top website" />
+  </div>
+
+  <div class="col-10 col-md-6 col-lg-4 mx-auto frost py-4 my-5 px-4 text-center glow-border border-odd homepage">
+    <div class="col-12 text-center h2 head">Arsalan Sheikh</div>
+
+    <div class="col-12 text-center h4 head mt-4 pt-2">
+      "Nerd", <span class="h3">H</span>e said, and here i am!
+      <!-- IF YOU ARE HERE SEEING THIS, yes that is ironic but true -->
+    </div>
+
+    <div class="col-12 text-center h4 head">
+      <div id="typed" style="display: inline;"></div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about" class="col-11 col-md-9 col-lg-7 mx-auto frost py-4 my-5 px-4 glow-border border-even section-card">
+    <h2 class="section-title text-center">About</h2>
+    <p class="text-center small-caps">{site.location}</p>
+    {about.map((para) => <p class="my-3">{para}</p>)}
+    <div class="text-center mt-4">
+      <a href={site.resume} target="blank" class="btn frost linkX border-odd m-2 px-3" style="width: auto;">
+        <i class="far fa-file-pdf mr-2"></i>Résumé
+      </a>
+      <a href={`mailto:${site.email}`} class="btn frost linkX border-even m-2 px-3" style="width: auto;">
+        <i class="far fa-envelope mr-2"></i>Email me
+      </a>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="col-11 col-md-9 col-lg-7 mx-auto frost py-4 my-5 px-4 glow-border border-odd section-card">
+    <h2 class="section-title text-center">Experience</h2>
+    <div class="timeline mt-4">
+      {experience.map((e) => (
+        <div class="timeline-item">
+          <div class="d-flex flex-wrap justify-content-between">
+            <div class="h5 mb-0 tl-org">{e.org}</div>
+            <div class="tl-when">{e.when}</div>
+          </div>
+          <div class="tl-role">{e.role} · {e.where}</div>
+          <ul class="mt-2 pl-4">
+            {e.points.map((pt) => <li class="mb-2">{pt}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <div class="timeline-item mt-3">
+      <div class="d-flex flex-wrap justify-content-between">
+        <div class="h5 mb-0 tl-org">{education.school}</div>
+        <div class="tl-when">{education.when}</div>
+      </div>
+      <div class="tl-role">{education.degree}</div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="col-11 col-md-9 col-lg-7 mx-auto frost py-4 my-5 px-4 glow-border border-even section-card">
+    <h2 class="section-title text-center">Skills</h2>
+    {skills.map((g) => (
+      <div class="my-3">
+        <div class="stack-label">{g.title}</div>
+        <div>{g.items.map((i) => <span class="tag-chip">{i}</span>)}</div>
+      </div>
+    ))}
+    <div class="text-center mt-4"><a href="/tools/" class="stack-more">Every tool, and what I used it for →</a></div>
+  </section>
+
+  <!-- RECENT WORK -->
+  <section id="work" class="my-5">
+    <h2 class="section-title text-center text-light">Selected Work</h2>
+    <p class="text-center text-light col-10 col-md-6 mx-auto section-intro">Open-source agent skills and anonymized studio work.</p>
+    <div class="row col-10 p-3 my-2 mx-auto text-light text-center">
+      {featured.map((p) => <ProjectCard project={p} />)}
+    </div>
+    <div class="text-center"><a href="/projects/#recent" class="stack-more">All recent work →</a></div>
+  </section>
+
+  <!-- PRE-AI-SLOP -->
+  <section id="pre-ai" class="my-5">
+    <h2 class="section-title text-center text-light">Pre-AI-Slop</h2>
+    <p class="text-center text-light col-10 col-md-6 mx-auto section-intro">Written by hand, before AI coding tools. Everything that was on the first version of this site.</p>
+    <div class="row col-10 p-3 my-2 mx-auto text-light text-center">
+      {preAi.map((p) => <ProjectCard project={p} />)}
+    </div>
+    <div class="text-center"><a href="/projects/#pre-ai" class="stack-more">Open the archive →</a></div>
+  </section>
+
+  <!-- BLOG -->
+  <section id="writing" class="col-11 col-md-9 col-lg-7 mx-auto my-5">
+    <h2 class="section-title text-center text-light">From the Blog</h2>
+    {posts.map((post) => (
+      <a href={`/blog/${post.id}/`} class="d-block frost glow-border border-even section-card py-3 px-4 my-3 post-link">
+        <div class="tl-when">{post.data.date.toISOString().slice(0, 10)}</div>
+        <h3 class="h5 section-title mb-1">{post.data.title}</h3>
+        <div>{post.data.description}</div>
+      </a>
+    ))}
+    <div class="text-center"><a href="/blog/" class="stack-more">All posts →</a></div>
+  </section>
+
+  <!-- ELSEWHERE -->
+  <section id="elsewhere" class="col-11 col-md-9 col-lg-7 mx-auto frost py-4 mt-5 mb-5 px-4 glow-border border-odd section-card">
+    <h2 class="section-title text-center">Elsewhere</h2>
+    <div class="d-flex justify-content-center flex-wrap mt-4">
+      {linkGroups[0].items.map((l) => (
+        <a href={l.href} target="blank" rel="me noreferrer" class="social-icon m-3" aria-label={l.label} title={l.label}>
+          <i class={`${l.icon} fa-2x`}></i>
+        </a>
+      ))}
+    </div>
+    <div class="text-center mt-2"><a href="/links/" class="stack-more">All links →</a></div>
+  </section>
+
+  <script is:inline>
+    var typed2 = new Typed('#typed', {
+      strings: ['Programming', 'Development', 'Engineering', 'Automation', 'Web Scraping'],
+      typeSpeed: 100,
+      backSpeed: 50,
+      loop: true,
+    });
+  </script>
+</Layout>

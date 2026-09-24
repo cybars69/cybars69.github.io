@@ -1,0 +1,287 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>aeo-skills - cybars69</title><meta name="description" content="Open-source agent skills that audit, rewrite and monitor whether answer engines can extract a clean answer from your pages."><link rel="canonical" href="https://cybars69.github.io/projects/aeo-skills/"><link rel="icon" href="/favicon.ico"><!-- Agent discovery. Static-only site: no response headers or content negotiation, so the same relations
+         are advertised here, and every route has a build-time Markdown twin at <route>.md. --><link rel="alternate" type="text/markdown" href="/projects/aeo-skills.md" title="Markdown version of this page"><link rel="api-catalog" href="/.well-known/api-catalog"><link rel="describedby" type="text/markdown" href="/llms.txt" title="llms.txt"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:site_name" content="cybars69"><meta property="og:title" content="aeo-skills - cybars69"><meta property="og:description" content="Open-source agent skills that audit, rewrite and monitor whether answer engines can extract a clean answer from your pages."><meta property="og:url" content="https://cybars69.github.io/projects/aeo-skills/"><meta property="og:image" content="https://cybars69.github.io/images/projects/aeo-skills.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cybars69.github.io/images/projects/aeo-skills.jpg"><script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/fd0871e9e0.js" crossorigin="anonymous"></script><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script><link rel="stylesheet" href="/_astro/Layout.UTCX8eE_.css"></head><body><nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border"><a class="navbar-brand" href="/"><h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3><h3 class="logo-top pt-2" id="short-text">Arsalan</h3></a><button class="navbar-toggler text-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><img src="/images/hamburger.svg" alt="navbar hamburger arsalan sheikh" height="20px" style="color: #FAFAD2;"></button><div class="collapse navbar-collapse mx-5 pt-1" id="navbarSupportedContent"><ul class="navbar-nav ml-auto"><li class="nav-item"><a class="nav-link" href="/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Home</p></div></a></li><li class="nav-item"><a class="nav-link" href="/tools/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Tools</p></div></a></li><li class="nav-item"><a class="nav-link" href="/blog/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Blog</p></div></a></li><li class="nav-item"><a class="nav-link" href="/projects/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link active-nav">Projects</p></div></a></li><li class="nav-item"><a class="nav-link" href="/links/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Links</p></div></a></li><li class="nav-item"><a class="nav-link" href="/contact/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Contact</p></div></a></li></ul></div></nav><div class="page-top"></div><article class="col-11 col-md-10 col-lg-8 mx-auto frost glow-border border-odd section-card py-4 px-4 mb-5 prose readme"><a href="/projects/" class="stack-more">← All projects</a><div class="mt-3"><!-- Synced verbatim from cybars69/aeo-skills/README.md by scripts/sync-skill-readmes.mjs. Edit the README, then run `npm run sync:skills`. -->
+<h1 id="aeo-skills--make-your-pages-the-answer">aeo-skills — Make Your Pages the Answer</h1>
+<p><a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache-2.0"></a>
+<a href="https://agentskills.io"><img src="https://img.shields.io/badge/AgentSkills-compatible-blueviolet" alt="Agent Skills"></a></p>
+<p><strong>People are not clicking ten blue links. They are asking ChatGPT, Gemini, Perplexity, Claude, and Google AI Overviews a question and taking the first clean answer.</strong></p>
+<p>aeo-skills is an open-source Agent Skill suite that audits, rewrites, and monitors whether answer engines can extract a complete, trusted answer from your pages. It tells you what blocks featured snippets, AI Overviews, People Also Ask, and assistant replies — then generates the fixes.</p>
+<p>Compatible with <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a>, OpenCode, OpenClaw, Codex CLI, Cursor, GitHub Copilot, and any <a href="https://agentskills.io">AgentSkills</a>-compatible agent.</p>
+<p><strong>You do not need your own website to publish or install this.</strong> Agents install from GitHub. Google and AI crawlers get a free homepage at <a href="https://cybars69.github.io/aeo-skills/">cybars69.github.io/aeo-skills</a> after GitHub Pages is enabled.</p>
+<hr>
+<h2 id="aeo-is-not-geo">AEO is not GEO</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>AEO</strong> (this repo)</th>
+<th><strong>GEO</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Question</td>
+<td>Can an engine <em>extract and serve</em> this page as the answer?</td>
+<td>Will a generative engine <em>cite</em> this site as a source?</td>
+</tr>
+<tr>
+<td>Unit of work</td>
+<td>Passage, FAQ, how-to, snippet format</td>
+<td>Domain, entity, crawler access, brand graph</td>
+</tr>
+<tr>
+<td>Failure mode</td>
+<td>Buried answers, hedge language, mismatched schema, stale claims</td>
+<td>Blocked crawlers, weak entity, no <code>llms.txt</code></td>
+</tr>
+<tr>
+<td>Win condition</td>
+<td>Direct-answer ownership</td>
+<td>Citation share</td>
+</tr>
+</tbody>
+</table>
+<p>Use both. They measure different things.</p>
+<hr>
+<h2 id="why-it-matters">Why it matters</h2>
+<p>Traditional SEO tools measure rankings and backlinks. Answer engines select <strong>passages</strong>: a 40–60 word definition, a numbered procedure, a comparison table, a dated statistic with a source.</p>
+<p>Published research and platform docs that this scoring model uses:</p>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Why it is in the model</th>
+<th>Source class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content optimization (citations, stats, quotations)</td>
+<td><strong>115–415%</strong> visibility lift in generative engines for some treatments</td>
+<td>Aggarwal et al., 2023 (Princeton / Georgia Tech)</td>
+</tr>
+<tr>
+<td>Statistics in content</td>
+<td><strong>~30%</strong> higher citation probability in that study</td>
+<td>Aggarwal et al., 2023</td>
+</tr>
+<tr>
+<td>Expert quotations</td>
+<td><strong>~41%</strong> more citations in that study</td>
+<td>Aggarwal et al., 2023</td>
+</tr>
+<tr>
+<td><code>nosnippet</code> / <code>max-snippet:0</code></td>
+<td>Blocks snippet and many answer-card uses</td>
+<td><a href="https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag">Google robots meta tags</a></td>
+</tr>
+<tr>
+<td>FAQ rich results</td>
+<td>Restricted to a small set of site types in Google Search; FAQ <strong>content + JSON-LD</strong> still matters for other answer surfaces</td>
+<td><a href="https://developers.google.com/search/blog/2023/08/howto-faq-changes">Google Search Central FAQ change</a></td>
+</tr>
+</tbody>
+</table>
+<p>Practitioner heuristics (18-token extractable claims, 30–50 word FAQ answers) are labeled as heuristics in the scoring guide. Do not treat them as peer-reviewed constants.</p>
+<hr>
+<h2 id="quick-start">Quick start</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># Install all skills</span></span>
+<span class="line"><span style="color:#B392F0">npx</span><span style="color:#9ECBFF"> skills</span><span style="color:#9ECBFF"> add</span><span style="color:#9ECBFF"> cybars69/aeo-skills</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Run a full AEO audit</span></span>
+<span class="line"><span style="color:#B392F0">/aeo-audit</span><span style="color:#9ECBFF"> https://your-website.com</span></span></code></pre>
+<hr>
+<h2 id="available-skills">Available skills</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/cybars69/aeo-skills/tree/main/skills/aeo-audit">aeo-audit</a></td>
+<td>Score extractability, question coverage, answer schema, evidence, and companion Agent Readiness (robots, Content Signals, markdown for agents, well-known discovery).</td>
+</tr>
+<tr>
+<td><a href="https://github.com/cybars69/aeo-skills/tree/main/skills/aeo-fix-answers">aeo-fix-answers</a></td>
+<td>Rewrite passages into snippet-ready, self-contained answers. Never invents data.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/cybars69/aeo-skills/tree/main/skills/aeo-fix-questions">aeo-fix-questions</a></td>
+<td>Map real questions to pages; draft FAQ answers and fragment IDs without stuffing.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/cybars69/aeo-skills/tree/main/skills/aeo-fix-schema">aeo-fix-schema</a></td>
+<td>Generate FAQPage, HowTo, QAPage, DefinedTerm, and <code>mainEntity</code> JSON-LD that matches visible content.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/cybars69/aeo-skills/tree/main/skills/aeo-compare">aeo-compare</a></td>
+<td>Side-by-side AEO scores against 2–3 competitors.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/cybars69/aeo-skills/tree/main/skills/aeo-monitor">aeo-monitor</a></td>
+<td>Re-audit against a baseline and track regressions.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="how-scoring-works">How scoring works</h2>
+<p>aeo-audit returns a <strong>composite AEO Score (0–100)</strong> from four dimensions:</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Weight</th>
+<th>What it measures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Answer Extractability</td>
+<td>35%</td>
+<td>Direct-answer lead, extractable claims, snippet formats, passage integrity</td>
+</tr>
+<tr>
+<td>Question Coverage</td>
+<td>25%</td>
+<td>Primary question ownership, related questions, intent mix, follow-ups</td>
+</tr>
+<tr>
+<td>Answer Schema</td>
+<td>20%</td>
+<td>FAQ/HowTo/QAPage/<code>mainEntity</code> markup, visible-content parity, JSON-LD quality</td>
+</tr>
+<tr>
+<td>Evidence &amp; Freshness</td>
+<td>20%</td>
+<td>Sources, methodology, dates, authorship</td>
+</tr>
+</tbody>
+</table>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>AEO = Extractability×0.35 + Question Coverage×0.25 + Answer Schema×0.20 + Evidence×0.20</span></span></code></pre>
+<p>A <strong>Snippet Eligibility Gate</strong> sits outside the formula. If Googlebot is blocked, the page is <code>noindex</code>, or <code>nosnippet</code> / <code>max-snippet:0</code> is set, other scores have limited practical value until that gate is fixed.</p>
+<p>Every audit also returns <strong>Agent Readiness (0–100)</strong> — crawl policy, <code>Accept: text/markdown</code>, API catalog, A2A, MCP, OAuth, <code>auth.md</code>. It is <strong>not</strong> averaged into AEO. A brochure site can be strong AEO and weak Agent Readiness.</p>
+<p>Full rubric: <a href="https://github.com/cybars69/aeo-skills/blob/main/skills/aeo-audit/references/scoring-guide.md"><code>skills/aeo-audit/references/scoring-guide.md</code></a> · Agent checks: <a href="https://github.com/cybars69/aeo-skills/blob/main/skills/aeo-audit/references/agent-readiness.md"><code>skills/aeo-audit/references/agent-readiness.md</code></a></p>
+<hr>
+<h2 id="installation">Installation</h2>
+<h3 id="recommended">Recommended</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">npx</span><span style="color:#9ECBFF"> skills</span><span style="color:#9ECBFF"> add</span><span style="color:#9ECBFF"> cybars69/aeo-skills</span></span></code></pre>
+<h3 id="manual">Manual</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># Claude Code</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> clone</span><span style="color:#9ECBFF"> https://github.com/cybars69/aeo-skills.git</span><span style="color:#9ECBFF"> ~/.claude/skills/aeo-skills</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># OpenCode</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> clone</span><span style="color:#9ECBFF"> https://github.com/cybars69/aeo-skills.git</span><span style="color:#9ECBFF"> ~/.config/opencode/skills/aeo-skills</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># OpenClaw</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> clone</span><span style="color:#9ECBFF"> https://github.com/cybars69/aeo-skills.git</span><span style="color:#9ECBFF"> ~/.openclaw/skills/aeo-skills</span></span></code></pre>
+<h3 id="single-skill">Single skill</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">npx</span><span style="color:#9ECBFF"> skills</span><span style="color:#9ECBFF"> add</span><span style="color:#9ECBFF"> cybars69/aeo-skills</span><span style="color:#79B8FF"> --skill</span><span style="color:#9ECBFF"> aeo-audit</span></span></code></pre>
+<h3 id="usage">Usage</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">/aeo-audit</span><span style="color:#9ECBFF"> https://example.com</span></span>
+<span class="line"><span style="color:#B392F0">/aeo-fix-answers</span><span style="color:#9ECBFF"> https://example.com/blog/post</span></span>
+<span class="line"><span style="color:#B392F0">/aeo-fix-questions</span><span style="color:#9ECBFF"> https://example.com</span></span>
+<span class="line"><span style="color:#B392F0">/aeo-fix-schema</span><span style="color:#9ECBFF"> https://example.com</span></span>
+<span class="line"><span style="color:#B392F0">/aeo-compare</span><span style="color:#9ECBFF"> https://mysite.com</span><span style="color:#9ECBFF"> https://competitor-a.com</span><span style="color:#9ECBFF"> https://competitor-b.com</span></span>
+<span class="line"><span style="color:#B392F0">/aeo-monitor</span><span style="color:#9ECBFF"> https://mysite.com</span></span></code></pre>
+<p>In other agents, describe the task naturally: “Run an AEO audit on <a href="https://example.com">https://example.com</a>”.</p>
+<hr>
+<h2 id="publish-and-discovery-no-custom-domain">Publish and discovery (no custom domain)</h2>
+<p>This suite is distributed as a <strong>public GitHub repository</strong>. That is what <code>npx skills add</code> and <code>gh skill install</code> read. A custom domain is optional.</p>
+<table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>What to do</th>
+<th>URL after publish</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AI coding agents</strong></td>
+<td>Public repo + <code>skills/*/SKILL.md</code></td>
+<td><code>npx skills add cybars69/aeo-skills</code></td>
+</tr>
+<tr>
+<td><strong>skills.sh</strong></td>
+<td>Same public repo (listed after GitHub is live)</td>
+<td><a href="https://skills.sh/cybars69/aeo-skills">skills.sh/cybars69/aeo-skills</a></td>
+</tr>
+<tr>
+<td><strong>Google / Bing / AI crawlers</strong></td>
+<td>Enable GitHub Pages from <code>/docs</code></td>
+<td><a href="https://cybars69.github.io/aeo-skills/">cybars69.github.io/aeo-skills</a></td>
+</tr>
+<tr>
+<td><strong>llms.txt</strong></td>
+<td>Already in the repo and on Pages</td>
+<td><a href="https://cybars69.github.io/aeo-skills/llms.txt">llms.txt</a></td>
+</tr>
+<tr>
+<td><strong>Agent Skills index</strong></td>
+<td>Served from Pages</td>
+<td><a href="https://cybars69.github.io/aeo-skills/.well-known/agent-skills/index.json">.well-known/agent-skills/index.json</a></td>
+</tr>
+</tbody>
+</table>
+<p>RFC 8615 <code>/.well-known/</code> is defined at the <strong>origin root</strong>. Project Pages live at <code>https://cybars69.github.io/aeo-skills/</code>, so the index is at that path, not at <code>https://cybars69.github.io/.well-known/</code>. Agents that only probe the github.io origin root will miss it unless you later add a user site repo named <code>cybars69.github.io</code>. GitHub itself remains the install source either way.</p>
+<h3 id="first-time-publish">First-time publish</h3>
+<ol>
+<li><code>gh auth login</code> (this machine’s GitHub token is currently invalid).</li>
+<li>Commit and <code>git push -u origin main</code>.</li>
+<li>GitHub → repo → <strong>Settings → Pages</strong> → Deploy from branch <code>main</code>, folder <code>/docs</code>.</li>
+<li><strong>About</strong> → Topics: <code>agent-skills</code>, <code>aeo</code>, <code>answer-engine-optimization</code>, <code>ai-overviews</code>, <code>schema-markup</code>, <code>llms-txt</code>.</li>
+<li>About → Website: <code>https://cybars69.github.io/aeo-skills/</code>.</li>
+<li>After Pages is live, submit that URL in <a href="https://search.google.com/search-console">Google Search Console</a> (URL prefix <code>https://cybars69.github.io/aeo-skills/</code>). Bing Webmaster Tools the same.</li>
+</ol>
+<p>Do not expect day-one rankings. Public GitHub + Pages + a factual README is the discoverability stack you can run without buying a domain.</p>
+<hr>
+<h2 id="what-is-aeo">What is AEO?</h2>
+<p><strong>Answer Engine Optimization</strong> is the practice of structuring pages so answer engines can select a passage as the answer: featured snippets, AI Overviews, People Also Ask, and voice/assistant responses.</p>
+<p>It is not keyword density. It is passage quality, question ownership, structured answers, and evidence.</p>
+<hr>
+<h2 id="faq">FAQ</h2>
+<p><strong>Do I need an API key?</strong>
+No. Skills fetch public pages and produce reports locally.</p>
+<p><strong>Which engines does this cover?</strong>
+The audit is engine-agnostic. Recommendations call out differences between Google AI Overviews / featured snippets, ChatGPT, Perplexity, Gemini, and Claude when the evidence supports it.</p>
+<p><strong>Will FAQ schema get me a Google FAQ rich result?</strong>
+Usually not. Google limited FAQ rich results to a small set of site types. FAQ content and JSON-LD still help answer extraction on other surfaces. The skill will not promise rich results the site is not eligible for.</p>
+<p><strong>How is this different from Ahrefs or Semrush?</strong>
+Those tools measure rankings, links, and (sometimes) snippet ownership historically. aeo-skills scores whether a page is <em>extractable and answerable</em> from the live HTML.</p>
+<p><strong>Can I use this with geoskills?</strong>
+Yes. Run <code>aeo-audit</code> for answer extraction and a GEO audit for crawler/entity/citation share. Do not mix composite scores; the models are not interchangeable.</p>
+<hr>
+<h2 id="changelog">Changelog</h2>
+<h3 id="v110-2026-09-16">v1.1.0 (2026-09-16)</h3>
+<ul>
+<li>Companion <strong>Agent Readiness</strong> score in <code>aeo-audit</code> / <code>aeo-compare</code> / <code>aeo-monitor</code> (not mixed into AEO)</li>
+<li>Checks from Cloudflare / Is It Agent Ready prompts: RFC 9309 robots, sitemap, explicit AI User-agents, Content Signals, markdown negotiation, RFC 9727 API catalog, Link headers, OAuth/OIDC + RFC 9728, <code>/auth.md</code>, A2A agent card, Agent Skills index, MCP server card, WebMCP, DNS-AID, Web Bot Auth</li>
+<li>SSOT: <code>skills/aeo-audit/references/agent-readiness.md</code></li>
+<li><code>AEO-AUDIT-META</code> now <code>scoring_model: v1.1</code> with <code>agent_readiness</code> fields (v1 AEO dimensions stay comparable)</li>
+</ul>
+<h3 id="v100-2026-09-16">v1.0.0 (2026-09-16)</h3>
+<p>Initial public release.</p>
+<ul>
+<li><strong>aeo-audit</strong> — Scoring Model v1: Extractability 35%, Question Coverage 25%, Answer Schema 20%, Evidence 20%, plus a snippet eligibility gate (<code>noindex</code> / <code>nosnippet</code> / CSR-only answers)</li>
+<li>Business-type adjustments for SaaS, E-commerce, Publisher, Local, and Agency</li>
+<li><code>AEO-AUDIT-META</code> machine-readable footer for monitor chaining</li>
+<li><strong>aeo-fix-answers</strong> / <strong>aeo-fix-questions</strong> / <strong>aeo-fix-schema</strong> aligned to the same rubric</li>
+<li><strong>aeo-compare</strong> and <strong>aeo-monitor</strong> consume the same SSOT (<code>scoring-guide.md</code>)</li>
+<li>Research notes separate peer-reviewed GEO findings from AEO practitioner heuristics</li>
+</ul>
+<hr>
+<h2 id="contributing">Contributing</h2>
+<ol>
+<li>Fork the repository</li>
+<li>Create a feature branch (<code>git checkout -b feat/skill-improvement</code>)</li>
+<li>Keep <code>scoring-guide.md</code> as the AEO scoring SSOT and <code>agent-readiness.md</code> as the Agent Readiness SSOT</li>
+<li>Open a pull request</li>
+</ol>
+<p>Useful contributions: non-English hedge dictionaries, additional business-type profiles, snippet-format heuristics, schema templates, eval cases.</p>
+<hr>
+<h2 id="license">License</h2>
+<p>Apache-2.0 — see <a href="https://github.com/cybars69/aeo-skills/tree/main/LICENSE">LICENSE</a>.</p>
+<p>Packaging is inspired by other Agent Skills monorepos such as <a href="https://github.com/Cognitic-Labs/geoskills">geoskills</a>. This is an independent AEO project, not a fork and not affiliated with Cognitic Labs or AIvsRank.</p>
+</div></article></body></html>

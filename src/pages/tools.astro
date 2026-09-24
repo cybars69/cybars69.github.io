@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { toolGroups, originalToolbox } from '../data/tools';
+import mysql from '../icons/mysql.svg?raw';
+import git from '../icons/git.svg?raw';
+import linux from '../icons/linux.svg?raw';
+
+const inline = { mysql, git, linux };
+const count = toolGroups.reduce((n, g) => n + g.items.length, 0);
+---
+
+<Layout
+  title="Tools - cybars69"
+  description="The languages, frameworks, platforms and practices Arsalan Sheikh (cybars69) works with, and what each was used for."
+  active="tools"
+>
+  <link slot="head" href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script slot="head" src="https://unpkg.com/aos@2.3.1/dist/aos.js" is:inline></script>
+
+  <div class="page-top"></div>
+
+  <header class="col-11 col-lg-10 mx-auto text-center text-light mb-4">
+    <h1 class="section-title">Tools</h1>
+    <p class="section-intro col-md-8 mx-auto">
+      {count} tools, grouped by area, with what I used each one for and where. Studio and client work is kept generic; the{' '}
+      <a href="/projects/" class="stack-more">projects</a> and <a href="/blog/" class="stack-more">posts</a> go deeper.
+    </p>
+    <nav class="jump-nav" aria-label="Sections">
+      {toolGroups.map((g) => <a href={`#${g.id}`} class="tag-chip">{g.title}</a>)}
+      <a href="#original" class="tag-chip">Original toolbox</a>
+    </nav>
+  </header>
+
+  {toolGroups.map((g) => (
+    <section id={g.id} class="col-11 col-lg-10 mx-auto mb-5 tool-section">
+      <h2 class="section-title text-light">{g.title}</h2>
+      <p class="section-intro">{g.intro}</p>
+      <div class="row">
+        {g.items.map((t) => (
+          <div class="col-12 col-md-6 col-xl-4 mb-4">
+            <div class="tool-card tool-detail border-even p-3 h-100">
+              <h3 class="h5 project-title mb-2">
+                {t.href ? <a href={t.href} class="project-title">{t.name}</a> : t.name}
+              </h3>
+              <p class="mb-3">{t.use}</p>
+              <div>{t.where.map((w) => <span class="tag-chip">{w}</span>)}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  ))}
+
+  <section id="original" class="col-11 col-lg-10 mx-auto mb-5 tool-section">
+    <h2 class="section-title text-light">Original toolbox</h2>
+    <p class="section-intro">The grid from the first version of this site, before most of the above.</p>
+    <div class="row text-center d-flex justify-content-center">
+      {originalToolbox.map((t) => (
+        <div class="col-10 col-sm-6 col-md-4 col-lg-3 col-xl-2 py-4 mx-auto" data-aos="fade-up" data-aos-duration="150">
+          <div class="col-11 mx-auto p-3 tool-card border-even">
+            <a target="blank" rel="noreferrer" href={t.href} aria-label={t.name}>
+              {t.inline && <Fragment set:html={inline[t.inline]} />}
+              {t.icon && <i class={t.icon} style="color: #fafad2;"></i>}
+              {t.img && (t.imgAttr === 'width'
+                ? <img src={t.img} width="100px" alt="" />
+                : <img src={t.img} height="100px" alt="" />)}
+            </a>
+            <h3 class="my-2 lowing">{t.name}</h3>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <script is:inline>
+    AOS.init();
+  </script>
+</Layout>

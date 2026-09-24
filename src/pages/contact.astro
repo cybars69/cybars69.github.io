@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contact - cybars69" description="Get in touch with Arsalan Sheikh (cybars69)." active="contact">
+    <div class="p-5 col-10 my-5"></div>
+
+    <div id="form-submitted" class="col-11 col-md-6 col-xl-4 mx-auto text-center text-light h4 frost glow-border border-even py-5" style="display: none;">
+        Thanks for your interest!<br>We will reach out shortly!
+    </div>
+
+    <div id="form-error" class="col-11 col-md-6 col-xl-4 mx-auto text-center text-light frost glow-border border-odd py-3 mb-3" style="display: none;">
+        Couldn't send that right now.<br>Email me at <a href="mailto:sheikharsalan7222+cybars69gh@gmail.com" style="text-decoration: underline;">sheikharsalan7222+cybars69gh@gmail.com</a> instead.
+    </div>
+
+    <div id="form" class="col-11 col-md-6 col-xl-4 mx-auto text-center frost glow-border border-even py-5">
+        <form onsubmit="submitForm(event)">
+            <div class="form-group row mx-auto">
+                <div class="col-11 col-lg-8 mx-auto">
+                    <div class="input-group">
+                        <input id="name" name="name" placeholder="Name" type="text" class="form-control frost linkX border-odd input-field" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mx-auto">
+                <div class="col-11 col-lg-8 mx-auto">
+                    <div class="input-group">
+                        <input id="ph_no" name="ph_no" placeholder="Phone Number (Optional)" type="text" class="form-control frost linkX border-even input-field">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mx-auto">
+                <div class="col-11 col-lg-8 mx-auto">
+                    <div class="input-group">
+                        <input id="email" name="email" placeholder="Email" type="email" class="form-control frost linkX border-odd input-field" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mx-auto">
+                <div class="col-11 col-lg-8 mx-auto">
+                    <div class="input-group">
+                        <textarea class="form-control mx-auto frost linkX border-even input-field" id="desc" rows="4" placeholder="Details" required></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-11 col-lg-8 px-4 mx-auto ">
+                    <button name="submit" type="submit" class="btn frost linkX border-odd btn-block mx-auto">
+                        <div class="" id="submit-btn">
+                            Submit Request
+                        </div>
+                        <div class="" id="submit-loader" style="display: none;">
+                            <div class="text-center col-12 mx-auto">
+                                <div class="spinner-grow spinner-grow-sm text-light"></div>
+                                <div class="spinner-grow spinner-grow-sm text-light"></div>
+                                <div class="spinner-grow spinner-grow-sm text-light"></div>
+                                <div class="spinner-grow spinner-grow-sm text-light"></div>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script is:inline>
+        function formSubmitted() {
+            document.getElementById("form-submitted").style.display = "block";
+            document.getElementById("form").style.display = "none";
+        }
+
+        function submitForm(e) {
+            document.getElementById("submit-btn").style.display = "none";
+            document.getElementById("submit-loader").style.display = "block ";
+            e.preventDefault();
+            const name = document.getElementById('name').value
+            const ph_no = document.getElementById('ph_no').value
+            const email = document.getElementById('email').value
+            const desc = document.getElementById('desc').value
+            console.log(name, ph_no, email, desc);
+            fetch("https://forms-free.herokuapp.com/newEntry", {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: "POST",
+                    body: JSON.stringify({
+                        "name": name,
+                        "ph_no": ph_no || 69420,
+                        "email": email,
+                        "desc": desc
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    if (data.success === 1)
+                        formSubmitted()
+                    else window.location.href = '/'
+                })
+                .catch(function(res) {
+                    console.log(res)
+                    document.getElementById("submit-btn").style.display = "block";
+                    document.getElementById("submit-loader").style.display = "none";
+                    document.getElementById("form-error").style.display = "block";
+                })
+        }
+    </script>
+</Layout>

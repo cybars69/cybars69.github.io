@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Modelling quizzes: question types, manual grading and the attempt state you didn&#39;t know you needed - cybars69</title><meta name="description" content="What I learned by reading the source of a mature open-source LMS plugin before designing a quiz schema."><link rel="canonical" href="https://cybars69.github.io/blog/modelling-quizzes-question-types-and-attempt-states/"><link rel="icon" href="/favicon.ico"><!-- Agent discovery. Static-only site: no response headers or content negotiation, so the same relations
+         are advertised here, and every route has a build-time Markdown twin at <route>.md. --><link rel="alternate" type="text/markdown" href="/blog/modelling-quizzes-question-types-and-attempt-states.md" title="Markdown version of this page"><link rel="api-catalog" href="/.well-known/api-catalog"><link rel="describedby" type="text/markdown" href="/llms.txt" title="llms.txt"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:site_name" content="cybars69"><meta property="og:title" content="Modelling quizzes: question types, manual grading and the attempt state you didn't know you needed - cybars69"><meta property="og:description" content="What I learned by reading the source of a mature open-source LMS plugin before designing a quiz schema."><meta property="og:url" content="https://cybars69.github.io/blog/modelling-quizzes-question-types-and-attempt-states/"><meta property="og:image" content="https://cybars69.github.io/images/arse.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://cybars69.github.io/images/arse.jpg"><script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/fd0871e9e0.js" crossorigin="anonymous"></script><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script><link rel="stylesheet" href="/_astro/Layout.UTCX8eE_.css"></head><body><nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border"><a class="navbar-brand" href="/"><h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3><h3 class="logo-top pt-2" id="short-text">Arsalan</h3></a><button class="navbar-toggler text-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><img src="/images/hamburger.svg" alt="navbar hamburger arsalan sheikh" height="20px" style="color: #FAFAD2;"></button><div class="collapse navbar-collapse mx-5 pt-1" id="navbarSupportedContent"><ul class="navbar-nav ml-auto"><li class="nav-item"><a class="nav-link" href="/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Home</p></div></a></li><li class="nav-item"><a class="nav-link" href="/tools/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Tools</p></div></a></li><li class="nav-item"><a class="nav-link" href="/blog/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link active-nav">Blog</p></div></a></li><li class="nav-item"><a class="nav-link" href="/projects/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Projects</p></div></a></li><li class="nav-item"><a class="nav-link" href="/links/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Links</p></div></a></li><li class="nav-item"><a class="nav-link" href="/contact/"><div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center"><p class="hover-link">Contact</p></div></a></li></ul></div></nav><div class="page-top"></div><article class="col-11 col-md-8 col-lg-6 mx-auto frost glow-border border-odd section-card py-4 px-4 mb-5 prose"><div class="tl-when">2026-09-24</div><h1 class="h3 section-title">Modelling quizzes: question types, manual grading and the attempt state you didn&#39;t know you needed</h1><p>Before writing a schema for a learning platform’s quiz module, I read the source of a mature open-source LMS plugin, both its data models and its enums, purely as a <strong>reference for functionality</strong>. Nothing was ported. Every feature was reimplemented and each got a scope decision. Reading real code beats reading screenshots because code shows you the states that no screenshot captures.</p>
+<h2 id="two-levels-and-a-grant">Two levels, and a grant</h2>
+<p>The product shape I was building had two renamed primitives:</p>
+<ul>
+<li>a <strong>mock test</strong>: one quiz, a set of questions timed and graded as a unit;</li>
+<li>a <strong>test series</strong>: an ordered collection of mock tests sold and enrolled as one unit.</li>
+</ul>
+<p>Access is an <strong>enrolment</strong>: one row per user and series, moving from pending to approved or rejected by an admin. That row is already “conditional enablement for specific students, on request”, so no separate feature was needed. The gap list was more interesting: no pricing, no per-user overrides, only single-answer multiple choice, and no timer or pass mark.</p>
+<h2 id="question-types-are-a-grading-decision">Question types are a grading decision</h2>
+<p>The plugin’s question types split cleanly by <strong>how they are graded</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Grading</th>
+<th>How correctness works</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>true/false</td>
+<td>auto</td>
+<td>exactly one correct option among two</td>
+</tr>
+<tr>
+<td>single choice</td>
+<td>auto</td>
+<td>exactly one correct option among N</td>
+</tr>
+<tr>
+<td>multiple choice</td>
+<td>auto</td>
+<td>the chosen <strong>set</strong> must exactly equal the correct set</td>
+</tr>
+<tr>
+<td>matching</td>
+<td>auto</td>
+<td>prompt-to-match pairs; text or image variants</td>
+</tr>
+<tr>
+<td>sortable</td>
+<td>auto</td>
+<td>correct only if the order matches index for index</td>
+</tr>
+<tr>
+<td>fill in the blanks</td>
+<td>auto</td>
+<td>string match, case-insensitive</td>
+</tr>
+<tr>
+<td>text answer</td>
+<td><strong>manual</strong></td>
+<td>the auto-check always returns false and defers to a human</td>
+</tr>
+<tr>
+<td>audio, video</td>
+<td><strong>manual</strong></td>
+<td>play media, type a free-text answer</td>
+</tr>
+</tbody>
+</table>
+<p>The detail I liked: <code>multiple choice</code> requires an <em>exact</em> set match, so partial credit is a separate, deliberate feature rather than a default. And <strong>fill in the blanks</strong> is authored inline. You write the sentence and wrap each answer in double curly braces, with pipes for alternatives:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>The capital of France is {{ Paris }}</span></span>
+<span class="line"><span>The sky is {{ blue | azure }}</span></span></code></pre>
+<p>Each token then renders as an inline input inside the sentence. Authoring in the same string that gets displayed avoids a separate answers table that can fall out of sync with the prompt.</p>
+<h2 id="the-third-attempt-state">The third attempt state</h2>
+<p>The most transferable finding was the attempt lifecycle. A naive schema has two states, <code>in_progress</code> and <code>submitted</code>. The plugin has three:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>attempt_started  -&gt;  attempt_pending  -&gt;  attempt_ended</span></span>
+<span class="line"><span>                     (submitted, waiting     (fully graded)</span></span>
+<span class="line"><span>                      for a human grader)</span></span></code></pre>
+<p><code>pending</code> only exists because of the <strong>manually graded</strong> question types. The moment a quiz can contain a text answer, “submitted” and “graded” are different facts, and the score can’t be final. If you only ever ship auto-graded types, you can defer the extra state. But you should know it is coming, because adding a state to an attempt table that already has data is harder than reserving the name.</p>
+<h2 id="questions-belong-to-many-quizzes">Questions belong to many quizzes</h2>
+<p>Another quiet decision: questions and quizzes are related <strong>many-to-many</strong> through a pivot with a per-quiz order:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#E1E4E8">quiz_question_rel (quiz_id, question_id, menu_order,  </span><span style="color:#F97583">UNIQUE</span><span style="color:#E1E4E8"> (quiz_id, question_id))</span></span></code></pre>
+<p>That is what makes a shared <strong>question bank</strong> possible: the same question row attached to several quizzes and reordered independently in each. Retrofitting it later means migrating a foreign key into a pivot, which is exactly the sort of change to avoid.</p>
+<h2 id="settings-and-what-was-gated">Settings, and what was gated</h2>
+<p>The quiz settings are the usual suspects: pass mark, full mark, duration, attempts allowed (zero meaning unlimited), whether to reveal the correct answer immediately, and questions per page. A few (percentage-based pass marks, randomised question order, and “must answer every question”) were premium-only in the reference. That was useful as a <em>scoping</em> signal: features a mature product treats as advanced can wait for a fast follow.</p>
+<h2 id="how-i-used-it">How I used it</h2>
+<p>Every discovered feature went into one catalogue with a <strong>decision</strong>: build now (V1), fast-follow, defer, or cut. The V1 rows became a dependency-ordered task plan, and the domain foundation got a short ADR. The schema reserved room for some deferred items, for example a nullable per-enrolment attempt override, without building the feature. Design for the future, build for the roadmap.</p>
+<h2 id="takeaways">Takeaways</h2>
+<ul>
+<li>Read a mature product’s <strong>models and enums</strong>, not only its UI.</li>
+<li>Classify question types by how they are graded.</li>
+<li>Reserve the “waiting for a human” attempt state early.</li>
+<li>Prefer many-to-many for anything you might want to reuse.</li>
+</ul>
+<div class="mt-4"><a href="/blog/" class="stack-more">← All posts</a></div></article></body></html>

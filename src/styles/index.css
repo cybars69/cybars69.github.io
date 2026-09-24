@@ -1,0 +1,548 @@
+@font-face {
+    font-family: myFirstFont;
+    src: url(/fonts/arcadeclassic/ARCADECLASSIC.TTF);
+    font-weight: 100;
+}
+
+* {
+    margin: 0;
+    font-family: myFirstFont, Arial, Helvetica, sans-serif;
+    letter-spacing: 0.05em;
+    word-spacing: 0.5em;
+    /* border: solid 1px red; */
+}
+
+body {
+    background-size: 300px 200px;
+    background-image: url("/images/myCanvas (17).png");
+    background-repeat: repeat;
+    background-attachment: fixed;
+}
+
+.logo-top {
+    letter-spacing: 0.05em;
+    padding-left: 1em;
+}
+
+.hover-link {
+    display: inline-block;
+    position: relative;
+    color: blanchedalmond;
+    transition: 0.6s;
+}
+
+.hover-link:hover {
+    color: greenyellow;
+    transform: scale(1.3);
+}
+
+.hover-link:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: blanchedalmond;
+    transform-origin: bottom center;
+    transition: transform 0.3s ease-out;
+}
+
+.hover-link:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom center;
+    font-size: 150%;
+}
+
+.active-nav {
+    color: chartreuse !important;
+}
+
+.rounded_t {
+    border-radius: 50%;
+    border: solid 2px grey;
+    overflow: hidden;
+}
+
+.lowing {
+    color: honeydew;
+    fill: honeydew;
+}
+
+.info-card {
+    height: 100%;
+    color: chartreuse;
+}
+
+.frost {
+    backdrop-filter: blur(3px);
+}
+
+.glow-border {
+    box-shadow: 0 0 0.5em #aaa;
+}
+
+.tool-card {
+    backdrop-filter: blur(1px);
+    background-color: rgba(0, 0, 0, 0.555);
+    box-shadow: rgba(255, 255, 255, 0.472) 0px 0px 0.2em;
+}
+
+.links-card {
+    border: solid 0.5px rgba(250, 250, 210, 0.705);
+    background-color: rgba(0, 0, 0, 0.237);
+}
+
+.linkX {
+    color: lightgoldenrodyellow;
+    transition: 500ms;
+    background-color: rgba(0, 0, 0, 0.237);
+    backdrop-filter: blur(5px);
+    border: solid 1px rgba(250, 250, 210, 0.383);
+}
+
+.linkX:hover {
+    background-color: rgba(250, 250, 210, 0.664);
+    color: rgb(9, 9, 44);
+}
+
+.border-even {
+    border-radius: 1px 1em;
+}
+
+.border-odd {
+    border-radius: 1em 1px;
+}
+
+.homepage .head {
+    color: #FAFAD2;
+}
+
+.homepage {
+    background-color: rgba(0, 0, 0, 0.767);
+}
+
+a {
+    text-decoration: none;
+    color: #FAFAD2;
+}
+
+a:hover {
+    color: #FAFAD2;
+}
+
+.text-light {
+    color: #FAFAD2;
+}
+
+#short-text {
+    display: none;
+}
+
+@media (max-width: 400px) {
+    #short-text {
+        display: inline-block;
+    }
+    #long-text {
+        display: none;
+    }
+}
+
+.input-field:focus,
+.input-field:hover {
+    background: rgba(0, 0, 0, 0.541);
+    box-shadow: #fafad2c4 0 0 0.35rem;
+    color: #FAFAD2;
+}
+
+.btn {
+    background: rgba(71, 238, 42, 0.178);
+    box-shadow: #fafad2de 0 0 0.5rem;
+    color: #FAFAD2;
+}
+
+.btn:hover {
+    background: rgba(60, 253, 26, 0.5);
+    box-shadow: #fafad2c4 0 0 0.35rem;
+    color: #FAFAD2;
+}
+
+/* ---- Richer content sections (home, links, blog) ---- */
+
+.section-card {
+    background-color: rgba(0, 0, 0, 0.767);
+    color: #FAFAD2;
+}
+
+.section-title {
+    color: #FAFAD2;
+    margin-bottom: 0.5em;
+}
+
+.small-caps {
+    color: chartreuse;
+}
+
+.tag-chip {
+    display: inline-block;
+    margin: 0.25em 0.3em 0.25em 0;
+    padding: 0.15em 0.7em;
+    font-size: 0.9em;
+    color: lightgoldenrodyellow;
+    border: solid 1px rgba(250, 250, 210, 0.383);
+    border-radius: 1em 1px;
+    background-color: rgba(0, 0, 0, 0.237);
+}
+
+.stack-label {
+    color: chartreuse;
+}
+
+.stack-more {
+    color: chartreuse;
+    transition: 0.4s;
+}
+
+.stack-more:hover {
+    color: greenyellow;
+}
+
+.project-title {
+    color: chartreuse;
+}
+
+.timeline {
+    border-left: solid 1px rgba(250, 250, 210, 0.383);
+    padding-left: 1.25em;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 1.5em;
+}
+
+.timeline > .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.25em;
+    top: 0.6em;
+    width: 0.6em;
+    height: 0.6em;
+    margin-left: -0.3em;
+    border-radius: 50%;
+    background: chartreuse;
+    box-shadow: 0 0 0.4em chartreuse;
+}
+
+.tl-org {
+    color: #FAFAD2;
+}
+
+.tl-when,
+.tl-role {
+    color: rgba(250, 250, 210, 0.7);
+}
+
+.social-icon {
+    color: lightgoldenrodyellow;
+    transition: 0.4s;
+}
+
+.social-icon:hover {
+    color: greenyellow;
+    transform: scale(1.3);
+}
+
+.links-heading {
+    color: chartreuse;
+    font-size: 1.1rem;
+    margin: 1.5rem 0 0.75rem;
+}
+
+.links-heading:first-child {
+    margin-top: 0;
+}
+
+.post-link:hover {
+    color: #FAFAD2;
+    box-shadow: 0 0 0.9em #aaa;
+}
+
+.prose h2 {
+    font-size: 1.3rem;
+    margin: 1.5em 0 0.5em;
+    color: chartreuse;
+}
+
+.prose p,
+.prose ul {
+    margin: 1em 0;
+}
+
+.prose a {
+    text-decoration: underline;
+}
+
+.prose pre {
+    padding: 1em;
+    overflow-x: auto;
+    background: rgba(0, 0, 0, 0.5);
+    border: solid 1px rgba(250, 250, 210, 0.383);
+}
+
+
+/* ---- Page spacing under the fixed navbar ---- */
+
+/* Real padding instead of an empty spacer div: empty divs let their margins
+   collapse into the first card's margin, which pushed content against the nav. */
+.page-top {
+    padding-top: 9.5rem;
+}
+
+@media (max-width: 991px) {
+    .page-top {
+        padding-top: 8rem;
+    }
+}
+
+/* ---- Project cards and pages ---- */
+
+.section-intro {
+    color: rgba(250, 250, 210, 0.75);
+    margin-bottom: 1.5rem;
+}
+
+.project-media,
+.project-hero {
+    position: relative;
+    display: block;
+    overflow: hidden;
+}
+
+.project-media img,
+.project-hero img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+}
+
+.project-kind {
+    color: chartreuse;
+    font-size: 0.85em;
+}
+
+.killed img {
+    filter: grayscale(1) brightness(0.55);
+}
+
+.killed-stamp {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-8deg);
+    padding: 0.2em 0.8em;
+    font-size: 2.2rem;
+    color: #ff4d4d;
+    border: 3px solid #ff4d4d;
+    border-radius: 1em 2px;
+    background: rgba(0, 0, 0, 0.6);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.ba-grid figure {
+    margin: 0;
+}
+
+.ba-grid img {
+    width: 100%;
+    border: solid 1px rgba(250, 250, 210, 0.383);
+}
+
+.ba-grid figcaption {
+    margin-top: 0.4rem;
+    color: rgba(250, 250, 210, 0.7);
+    font-size: 0.85em;
+}
+
+@media (max-width: 575px) {
+    .ba-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.prose table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    margin: 1.25em 0;
+    border-collapse: collapse;
+}
+
+.prose th,
+.prose td {
+    padding: 0.5em 0.75em;
+    border: solid 1px rgba(250, 250, 210, 0.383);
+    text-align: left;
+    vertical-align: top;
+}
+
+.prose th {
+    color: chartreuse;
+}
+
+.prose li {
+    margin: 0.4em 0;
+}
+
+.prose img {
+    max-width: 100%;
+}
+
+.prose code {
+    color: lightgoldenrodyellow;
+}
+
+.prose pre code {
+    color: #FAFAD2;
+}
+
+
+/* ---- Terminal / code text: real monospace, exact case ----
+   The site sets `* { font-family: <pixel font> }`, which beats anything inherited from
+   <pre>/<code>. Syntax highlighting wraps every token in a <span>, so the descendants
+   have to be targeted directly. The pixel font is also all-caps, so it can never
+   preserve case, which is why code must not use it. */
+code,
+kbd,
+samp,
+pre,
+code *,
+kbd *,
+samp *,
+pre * {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    letter-spacing: 0;
+    word-spacing: 0;
+    text-transform: none;
+    font-variant-ligatures: none;
+}
+
+pre {
+    font-size: 0.82rem;
+    line-height: 1.55;
+    tab-size: 2;
+    border-radius: 0.5em;
+}
+
+pre.astro-code {
+    padding: 1em 1.1em;
+    border: solid 1px rgba(250, 250, 210, 0.25);
+}
+
+:not(pre) > code {
+    font-size: 0.85em;
+    padding: 0.1em 0.35em;
+    border-radius: 0.3em;
+    background: rgba(250, 250, 210, 0.1);
+}
+
+/* ---- Rendered READMEs (skill homepages) ---- */
+
+.prose h1 {
+    font-size: 1.9rem;
+    line-height: 1.3;
+    margin: 0.4em 0;
+    color: #FAFAD2;
+}
+
+.prose h3 {
+    font-size: 1.1rem;
+    margin: 1.4em 0 0.5em;
+    color: #FAFAD2;
+}
+
+.prose h4 {
+    font-size: 1rem;
+    margin: 1.2em 0 0.4em;
+    color: chartreuse;
+}
+
+.prose blockquote {
+    margin: 1.2em 0;
+    padding: 0.2em 1em;
+    border-left: 3px solid chartreuse;
+    background: rgba(250, 250, 210, 0.06);
+}
+
+.prose hr {
+    border: 0;
+    border-top: 1px solid rgba(250, 250, 210, 0.3);
+    margin: 2em 0;
+}
+
+.prose details {
+    margin: 1em 0;
+    padding: 0.6em 1em;
+    border: 1px solid rgba(250, 250, 210, 0.3);
+}
+
+.prose summary {
+    cursor: pointer;
+    color: chartreuse;
+}
+
+/* README layout tables (align="center", column widths) must keep their table layout */
+.prose table[align] {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.prose [align='center'] {
+    text-align: center;
+}
+
+.prose a img {
+    border: 0;
+}
+
+/* ---- Tools page ---- */
+
+.tool-detail {
+    text-align: left;
+    color: #FAFAD2;
+}
+
+.tool-detail p {
+    color: rgba(250, 250, 210, 0.85);
+}
+
+.jump-nav .tag-chip {
+    margin: 0.3em 0.25em;
+    transition: 0.3s;
+}
+
+.jump-nav .tag-chip:hover {
+    color: greenyellow;
+    border-color: greenyellow;
+}
+
+.tool-section {
+    scroll-margin-top: 8rem;
+}
+
+.tool-section > .section-intro {
+    text-align: left;
+    margin-bottom: 1.25rem;
+}

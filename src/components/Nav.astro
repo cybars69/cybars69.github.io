@@ -1,0 +1,38 @@
+---
+interface Props {
+  active: 'home' | 'tools' | 'blog' | 'projects' | 'links' | 'contact';
+}
+const { active } = Astro.props;
+const items = [
+  { key: 'home', label: 'Home', href: '/' },
+  { key: 'tools', label: 'Tools', href: '/tools/' },
+  { key: 'blog', label: 'Blog', href: '/blog/' },
+  { key: 'projects', label: 'Projects', href: '/projects/' },
+  { key: 'links', label: 'Links', href: '/links/' },
+  { key: 'contact', label: 'Contact', href: '/contact/' },
+];
+---
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-4 mb-5 frost glow-border">
+  <a class="navbar-brand" href="/">
+    <h3 class="logo-top pt-2" id="long-text">Arsalan Sheikh</h3>
+    <h3 class="logo-top pt-2" id="short-text">Arsalan</h3>
+  </a>
+  <button class="navbar-toggler text-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <img src="/images/hamburger.svg" alt="navbar hamburger arsalan sheikh" height="20px" style="color: #FAFAD2;" />
+  </button>
+
+  <div class="collapse navbar-collapse mx-5 pt-1" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      {items.map((item) => (
+        <li class="nav-item">
+          <a class="nav-link" href={item.href}>
+            <div class="col col-4 mx-auto px-3 my-1 text-center d-flex justify-content-center">
+              <p class:list={['hover-link', { 'active-nav': item.key === active }]}>{item.label}</p>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
